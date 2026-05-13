@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>lbchub.site — Builder Intelligence + Motherboard</title>
+<title>LBC Builder — Build on the Digital City</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -13,914 +13,552 @@
   --card2:#191924;--line:rgba(255,255,255,0.06);--glow:rgba(0,255,163,0.08);
   --text:#E2E8F0;--sub:#64748B;--sub2:#94A3B8;
 }
-html,body{height:100%;overflow:hidden;font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);}
+html,body{height:100%;font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);}
 .mono{font-family:'Space Mono',monospace;}
-body::before{content:'';position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(0,255,163,0.04) 0%,transparent 70%);pointer-events:none;z-index:0;}
 
-/* ── SHELL ── */
-.shell{display:flex;height:100%;position:relative;z-index:1;}
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:fixed;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(0,255,163,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:fixed;bottom:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(ellipse,rgba(167,139,250,0.04) 0%,transparent 70%);pointer-events:none;}
 
-/* ── RAIL ── */
-.rail{width:64px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;flex-shrink:0;}
-.rail-logo{width:36px;height:36px;background:var(--g);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--bg);margin-bottom:16px;cursor:pointer;box-shadow:0 0 20px rgba(0,255,163,.25);}
-.rail-sep{width:32px;height:1px;background:var(--line);margin:8px 0;}
-.rail-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;border:1px solid transparent;position:relative;}
-.rail-btn:hover{background:var(--card);border-color:var(--line);}
-.rail-btn.on{background:var(--glow);border-color:rgba(0,255,163,0.2);}
-.rail-tip{position:absolute;left:calc(100% + 10px);background:#1E1E2E;border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:11px;white-space:nowrap;color:var(--text);pointer-events:none;opacity:0;transition:opacity .15s;z-index:99;}
-.rail-btn:hover .rail-tip{opacity:1;}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:64px;background:rgba(6,6,9,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px;z-index:100;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-box{width:36px;height:36px;background:var(--g);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#060609;font-family:'Space Mono',monospace;box-shadow:0 0 20px rgba(0,255,163,0.3);}
+.nav-brand{font-size:16px;font-weight:700;color:var(--text);}
+.nav-brand span{color:var(--g);}
+.nav-links{display:flex;align-items:center;gap:8px;}
+.nav-link{padding:7px 16px;border-radius:9px;font-size:13px;color:var(--sub2);cursor:pointer;border:1px solid transparent;transition:all .2s;text-decoration:none;}
+.nav-link:hover{color:var(--text);border-color:var(--line);background:var(--card);}
+.nav-cta{background:var(--g);color:#060609;font-weight:700;padding:8px 20px;border-radius:10px;font-size:13px;cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;transition:all .2s;}
+.nav-cta:hover{opacity:.9;transform:translateY(-1px);}
 
-/* ── SIDEBAR ── */
-.sidebar{width:260px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;transition:width .25s;}
-.sidebar.collapsed{width:0;}
-.sb-head{padding:20px 18px 14px;border-bottom:1px solid var(--line);}
-.sb-title{font-size:13px;font-weight:700;margin-bottom:2px;}
-.sb-sub{font-size:11px;color:var(--sub);font-family:'Space Mono',monospace;}
-.sb-section{font-size:9px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.14em;padding:14px 18px 6px;font-family:'Space Mono',monospace;}
-.sb-link{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;font-size:13px;color:var(--sub2);margin:1px 8px;border-radius:9px;border:1px solid transparent;white-space:nowrap;transition:all .15s;}
-.sb-link:hover{background:var(--card);color:var(--text);}
-.sb-link.on{background:var(--glow);color:var(--g);border-color:rgba(0,255,163,0.15);}
-.sl-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
-.sl-txt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;}
-.sl-badge{font-size:9px;font-family:'Space Mono',monospace;background:var(--card2);border-radius:4px;padding:2px 6px;color:var(--sub);flex-shrink:0;}
-.sb-link.on .sl-badge{color:rgba(0,255,163,.5);background:rgba(0,255,163,.06);}
-.sb-divider{height:1px;background:var(--line);margin:8px 18px;}
-.sb-hist{flex:1;overflow-y:auto;padding-bottom:16px;}
-.sh-item{padding:8px 16px;margin:1px 8px;border-radius:8px;cursor:pointer;transition:all .15s;}
-.sh-item:hover{background:var(--card);}
-.shi-q{font-size:12px;color:var(--sub2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px;}
-.shi-m{font-size:10px;color:var(--sub);font-family:'Space Mono',monospace;}
+/* HERO CONTENT */
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,163,0.08);border:1px solid rgba(0,255,163,0.2);border-radius:100px;padding:6px 16px;font-size:12px;font-family:'Space Mono',monospace;color:var(--g);margin-bottom:28px;margin-top:80px;}
+.eyebrow-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
+.hero-title{font-size:clamp(42px,7vw,80px);font-weight:700;line-height:1.08;letter-spacing:-0.03em;margin-bottom:24px;max-width:900px;}
+.hero-title .accent{color:var(--g);}
+.hero-title .accent2{color:var(--purple);}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--sub2);max-width:600px;line-height:1.6;margin-bottom:40px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:60px;}
+.btn-primary{background:var(--g);color:#060609;font-weight:700;padding:14px 32px;border-radius:12px;font-size:15px;cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.btn-primary:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,163,0.25);}
+.btn-secondary{background:var(--card);color:var(--text);font-weight:600;padding:14px 32px;border-radius:12px;font-size:15px;cursor:pointer;border:1px solid var(--line);font-family:'Space Grotesk',sans-serif;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.btn-secondary:hover{border-color:rgba(0,255,163,0.3);transform:translateY(-2px);}
 
-/* ── MAIN ── */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+/* STATS */
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;}
+.stat{text-align:center;}
+.stat-val{font-size:28px;font-weight:700;font-family:'Space Mono',monospace;color:var(--g);}
+.stat-lbl{font-size:12px;color:var(--sub);margin-top:2px;}
 
-/* ── TOPBAR ── */
-.topbar{height:56px;display:flex;align-items:center;padding:0 20px;border-bottom:1px solid var(--line);background:rgba(6,6,9,0.95);backdrop-filter:blur(12px);flex-shrink:0;gap:12px;}
-.tb-toggle{width:32px;height:32px;border-radius:8px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .2s;flex-shrink:0;}
-.tb-toggle:hover{border-color:rgba(0,255,163,.2);}
-.tb-path{flex:1;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--sub);font-family:'Space Mono',monospace;overflow:hidden;}
-.tb-path span{white-space:nowrap;}
-.tb-path .sep{opacity:.4;}
-.tb-path .cur{color:var(--g);}
-.tb-path .mb-crumb{color:var(--purple);}
-.tb-pills{display:flex;gap:6px;flex-shrink:0;}
-.tb-pill{display:flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 11px;font-size:11px;font-family:'Space Mono',monospace;}
-.tb-pill .pv{color:var(--g);font-weight:700;}
-.tb-pill .pl{color:var(--sub);}
-.live-pill{background:rgba(0,255,163,.06);border-color:rgba(0,255,163,.18);color:var(--g);}
-.live-dot{width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 1.8s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.15;}}
+/* DIVIDER */
+.divider{height:1px;background:var(--line);margin:0 40px;}
 
-/* ── CMD BAR ── */
-.cmdbar{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel);flex-shrink:0;}
-.cmd-row{display:flex;gap:10px;margin-bottom:10px;}
-.cmd-input{flex:1;display:flex;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 16px;gap:10px;transition:all .2s;}
-.cmd-input:focus-within{border-color:rgba(0,255,163,.3);box-shadow:0 0 0 3px rgba(0,255,163,.05);}
-.cmd-prompt{font-family:'Space Mono',monospace;font-size:12px;color:var(--g);opacity:.6;flex-shrink:0;}
-.cmd-input input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:14px;font-family:'Space Grotesk',sans-serif;padding:13px 0;}
-.cmd-input input::placeholder{color:var(--sub);}
-.cmd-x{background:none;border:none;color:var(--sub);cursor:pointer;font-size:15px;padding:4px;display:none;transition:color .2s;}
-.cmd-x:hover{color:var(--text);}
-.cmd-x.show{display:block;}
-.cmd-modes{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;gap:2px;flex-shrink:0;}
-.cmd-mode{padding:7px 14px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--sub);font-family:'Space Grotesk',sans-serif;transition:all .15s;white-space:nowrap;}
-.cmd-mode.on{background:var(--g);color:var(--bg);}
-.cmd-run{background:var(--g);color:var(--bg);border:none;border-radius:12px;padding:0 22px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;white-space:nowrap;transition:all .2s;flex-shrink:0;height:46px;}
-.cmd-run:hover{opacity:.9;transform:translateY(-1px);}
-.cmd-run:disabled{opacity:.25;cursor:not-allowed;transform:none;}
-.filters{display:flex;gap:6px;flex-wrap:wrap;}
-.filter-tag{padding:5px 12px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:11px;cursor:pointer;color:var(--sub2);transition:all .15s;font-family:'Space Mono',monospace;}
-.filter-tag.on{border-color:rgba(0,255,163,.3);color:var(--g);background:rgba(0,255,163,.06);}
+/* SECTION */
+.section{padding:80px 40px;max-width:1200px;margin:0 auto;}
+.section-eyebrow{font-size:11px;font-family:'Space Mono',monospace;color:var(--g);text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px;}
+.section-title{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;line-height:1.15;}
+.section-sub{font-size:16px;color:var(--sub2);max-width:560px;line-height:1.6;}
 
-/* ── CONTENT ── */
-.content{flex:1;overflow-y:auto;padding:24px;}
-.content::-webkit-scrollbar{width:4px;}
-.content::-webkit-scrollbar-track{background:transparent;}
-.content::-webkit-scrollbar-thumb{background:var(--card2);border-radius:2px;}
+/* DOMAINS GRID */
+.domains{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:40px;}
+.domain-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;}
+.domain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.domain-card.green::before{background:var(--g);}
+.domain-card.purple::before{background:var(--purple);}
+.domain-card.blue::before{background:var(--blue);}
+.domain-card.gold::before{background:var(--gold);}
+.domain-card.orange::before{background:var(--orange);}
+.domain-card:hover{border-color:rgba(0,255,163,0.2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4);}
+.dc-icon{font-size:28px;margin-bottom:14px;}
+.dc-name{font-size:13px;font-family:'Space Mono',monospace;color:var(--g);margin-bottom:6px;}
+.dc-title{font-size:16px;font-weight:700;margin-bottom:8px;}
+.dc-desc{font-size:13px;color:var(--sub2);line-height:1.5;}
+.dc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:14px;}
+.dc-tag{font-size:10px;font-family:'Space Mono',monospace;padding:3px 8px;background:var(--card2);border-radius:5px;color:var(--sub2);}
 
-/* ── EMPTY ── */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:20px;padding:40px;}
-.empty-icon{font-size:48px;opacity:.2;}
-.empty-title{font-size:16px;font-weight:600;color:var(--sub);}
-.empty-sub{font-size:13px;color:var(--sub);opacity:.6;margin-top:-10px;}
-.empty-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
-.empty-chip{padding:8px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:12px;cursor:pointer;color:var(--sub2);transition:all .15s;}
-.empty-chip:hover{border-color:rgba(0,255,163,.2);color:var(--g);}
+/* PRODUCTS */
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:40px;}
+.product-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;transition:all .25s;}
+.product-card:hover{border-color:rgba(0,255,163,0.25);transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,0.5);}
+.pc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;}
+.pc-icon-wrap{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.pc-icon-wrap.green{background:rgba(0,255,163,0.1);}
+.pc-icon-wrap.purple{background:rgba(167,139,250,0.1);}
+.pc-icon-wrap.blue{background:rgba(96,165,250,0.1);}
+.pc-icon-wrap.gold{background:rgba(251,191,36,0.1);}
+.pc-badge{font-size:10px;font-family:'Space Mono',monospace;padding:4px 10px;border-radius:100px;}
+.pc-badge.live{background:rgba(0,255,163,0.1);color:var(--g);border:1px solid rgba(0,255,163,0.2);}
+.pc-badge.building{background:rgba(167,139,250,0.1);color:var(--purple);border:1px solid rgba(167,139,250,0.2);}
+.pc-badge.deployed{background:rgba(96,165,250,0.1);color:var(--blue);border:1px solid rgba(96,165,250,0.2);}
+.pc-title{font-size:18px;font-weight:700;margin-bottom:8px;}
+.pc-desc{font-size:14px;color:var(--sub2);line-height:1.6;margin-bottom:20px;}
+.pc-features{display:flex;flex-direction:column;gap:8px;}
+.pc-feature{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--sub2);}
+.pc-feature::before{content:'◆';font-size:8px;color:var(--g);flex-shrink:0;}
 
-/* ── LOADER ── */
-.loader{display:none;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;}
-.loader.on{display:flex;}
-.l-title{font-size:14px;font-weight:600;font-family:'Space Mono',monospace;color:var(--g);}
-.l-sub{font-size:11px;color:var(--sub);font-family:'Space Mono',monospace;}
-.l-bar{width:280px;height:3px;background:var(--card);border-radius:2px;overflow:hidden;}
-.l-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--purple));border-radius:2px;transition:width .4s ease;}
-.lsteps{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
-.lstep{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--sub);font-family:'Space Mono',monospace;}
-.lstep.now{color:var(--sub2);}
-.lstep-dot{width:6px;height:6px;border-radius:50%;background:var(--sub);flex-shrink:0;}
-.lstep.now .lstep-dot{background:var(--g);animation:pulse 1s infinite;}
+/* TOKEN */
+.token-box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+@media(max-width:640px){.token-box{grid-template-columns:1fr;}}
+.token-left{}
+.token-symbol{font-size:48px;font-weight:900;font-family:'Space Mono',monospace;color:var(--g);line-height:1;}
+.token-name{font-size:14px;color:var(--sub2);margin-top:4px;margin-bottom:20px;}
+.token-address{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-family:'Space Mono',monospace;font-size:11px;color:var(--sub2);word-break:break-all;line-height:1.6;}
+.token-address span{color:var(--g);}
+.token-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ts{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px;}
+.ts-val{font-size:20px;font-weight:700;font-family:'Space Mono',monospace;color:var(--text);}
+.ts-lbl{font-size:11px;color:var(--sub);margin-top:4px;}
+.ts-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:'Space Mono',monospace;color:var(--g);margin-top:6px;}
+.ts-status::before{content:'✓';font-size:10px;}
 
-/* ── RESULTS ── */
-.r-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap;}
-.rh-query{font-size:16px;font-weight:600;}
-.rh-query em{color:var(--g);font-style:normal;}
-.rh-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.rh-tag{padding:4px 10px;background:var(--card);border:1px solid var(--line);border-radius:7px;font-size:11px;font-family:'Space Mono',monospace;color:var(--sub2);}
-.rh-acts{display:flex;gap:6px;}
-.rh-act{padding:4px 10px;background:rgba(0,255,163,.06);border:1px solid rgba(0,255,163,.15);border-radius:7px;font-size:11px;font-family:'Space Mono',monospace;color:var(--g);cursor:pointer;}
+/* INTELLIGENCE */
+.intel-box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;margin-top:40px;position:relative;overflow:hidden;}
+.intel-box::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(ellipse,rgba(0,255,163,0.06) 0%,transparent 70%);pointer-events:none;}
+.intel-header{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.intel-icon{width:44px;height:44px;background:rgba(0,255,163,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.intel-title{font-size:18px;font-weight:700;}
+.intel-sub{font-size:13px;color:var(--sub2);}
+.intel-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.if-item{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px;}
+.if-icon{font-size:20px;margin-bottom:10px;}
+.if-title{font-size:13px;font-weight:600;margin-bottom:4px;}
+.if-desc{font-size:12px;color:var(--sub2);line-height:1.5;}
 
-/* ── STATS ── */
-.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;}
-.s-num{font-size:22px;font-weight:700;font-family:'Space Mono',monospace;}
-.s-label{font-size:10px;color:var(--sub);margin-top:3px;text-transform:uppercase;letter-spacing:.08em;}
+/* TERMINAL */
+.terminal{background:#0a0a0f;border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;margin-top:40px;font-family:'Space Mono',monospace;}
+.term-bar{background:var(--panel);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);}
+.term-dot{width:10px;height:10px;border-radius:50%;}
+.term-dot.r{background:#F87171;}
+.term-dot.y{background:#FBBF24;}
+.term-dot.g{background:var(--g);}
+.term-title{font-size:11px;color:var(--sub);margin-left:8px;}
+.term-body{padding:20px;font-size:12px;line-height:1.8;color:var(--sub2);}
+.term-line{margin-bottom:2px;}
+.term-prompt{color:var(--g);}
+.term-cmd{color:var(--text);}
+.term-out{color:var(--sub2);}
+.term-success{color:var(--g);}
+.term-error{color:var(--red);}
+.term-info{color:var(--blue);}
+.term-cursor{display:inline-block;width:8px;height:14px;background:var(--g);animation:blink .8s infinite;vertical-align:middle;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-/* ── ANGLE ── */
-.angle{display:flex;align-items:flex-start;gap:12px;background:rgba(0,255,163,.04);border:1px solid rgba(0,255,163,.12);border-radius:12px;padding:14px 16px;margin-bottom:14px;}
-.angle-icon{font-size:18px;flex-shrink:0;}
-.ab-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--g);margin-bottom:4px;font-family:'Space Mono',monospace;}
-.ab-text{font-size:13px;color:var(--text);line-height:1.5;}
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.footer-logo{display:flex;align-items:center;gap:10px;}
+.footer-logo-box{width:32px;height:32px;background:var(--g);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#060609;font-family:'Space Mono',monospace;}
+.footer-brand{font-size:14px;font-weight:700;}
+.footer-brand span{color:var(--g);}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;}
+.footer-link{font-size:13px;color:var(--sub);cursor:pointer;transition:color .2s;text-decoration:none;}
+.footer-link:hover{color:var(--text);}
+.footer-copy{font-size:12px;color:var(--sub);font-family:'Space Mono',monospace;}
 
-/* ── WS ── */
-.ws-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.ws-tag{padding:5px 12px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:8px;font-size:11px;color:var(--gold);font-family:'Space Mono',monospace;}
+/* SEARCH TERMINAL */
+.search-section{padding:60px 40px;max-width:900px;margin:0 auto;}
+.search-wrap{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;}
+.search-title{font-size:22px;font-weight:700;margin-bottom:8px;}
+.search-sub{font-size:14px;color:var(--sub2);margin-bottom:24px;}
+.search-row{display:flex;gap:10px;}
+.search-input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:14px;color:var(--text);font-family:'Space Grotesk',sans-serif;outline:none;transition:all .2s;}
+.search-input:focus{border-color:rgba(0,255,163,.3);box-shadow:0 0 0 3px rgba(0,255,163,.05);}
+.search-btn{background:var(--g);color:#060609;border:none;border-radius:12px;padding:14px 28px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;transition:all .2s;white-space:nowrap;}
+.search-btn:hover{opacity:.9;}
+.search-results{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
+.sr-card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;display:none;}
+.sr-card.show{display:block;}
+.sr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sr-name{font-size:14px;font-weight:700;}
+.sr-score{font-family:'Space Mono',monospace;font-size:12px;color:var(--g);}
+.sr-desc{font-size:13px;color:var(--sub2);line-height:1.5;}
+.sr-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.sr-tag{font-size:10px;font-family:'Space Mono',monospace;padding:3px 8px;background:var(--card);border-radius:5px;color:var(--sub2);}
+.loading-msg{font-size:13px;color:var(--sub);font-family:'Space Mono',monospace;display:none;}
 
-/* ── DNA ── */
-.dna{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;}
-.dna-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.dna-title{font-size:13px;font-weight:600;}
-.dna-ct{font-size:10px;color:var(--sub);font-family:'Space Mono',monospace;}
-.dna-rows{display:flex;flex-direction:column;gap:7px;}
-.dna-row{display:flex;align-items:center;gap:10px;}
-.dr-name{font-size:11px;color:var(--sub2);width:100px;flex-shrink:0;font-family:'Space Mono',monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.dr-bar{flex:1;height:4px;background:var(--card2);border-radius:2px;overflow:hidden;}
-.dr-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--purple));border-radius:2px;}
-.dr-n{font-size:11px;color:var(--sub);font-family:'Space Mono',monospace;width:24px;text-align:right;flex-shrink:0;}
-
-/* ── TABS ── */
-.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;width:fit-content;}
-.tab{padding:7px 18px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;color:var(--sub);transition:all .15s;display:flex;align-items:center;gap:6px;}
-.tab.on{background:var(--card2);color:var(--text);}
-.tab-n{font-size:10px;background:rgba(255,255,255,.06);border-radius:5px;padding:1px 6px;font-family:'Space Mono',monospace;}
-
-/* ── PROJECT CARD ── */
-.pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px;cursor:pointer;transition:all .2s;}
-.pcard:hover{border-color:rgba(0,255,163,.15);background:var(--card2);transform:translateY(-1px);}
-.pc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
-.pc-avatar{width:40px;height:40px;background:var(--card2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.pc-info{flex:1;min-width:0;}
-.pc-name{font-size:15px;font-weight:600;margin-bottom:6px;}
-.pc-chips{display:flex;gap:5px;flex-wrap:wrap;}
-.chip{padding:3px 8px;border-radius:5px;font-size:10px;font-family:'Space Mono',monospace;font-weight:600;}
-.chip-hack{background:rgba(96,165,250,.1);color:var(--blue);}
-.chip-score{background:rgba(0,255,163,.1);color:var(--g);}
-.chip-win{background:rgba(251,191,36,.1);color:var(--gold);}
-.chip-acc{background:rgba(167,139,250,.1);color:var(--purple);}
-.chip-crowd{background:rgba(255,255,255,.05);color:var(--sub2);}
-.pc-liner{font-size:13px;color:var(--sub2);line-height:1.5;margin-bottom:8px;}
-.pc-quote{font-size:12px;color:var(--sub);font-style:italic;border-left:2px solid rgba(0,255,163,.3);padding-left:10px;margin-bottom:10px;font-family:'Space Mono',monospace;line-height:1.5;}
-.pc-tags{display:flex;gap:5px;flex-wrap:wrap;}
-.pc-tag{padding:3px 8px;background:var(--card2);border-radius:5px;font-size:10px;color:var(--sub);font-family:'Space Mono',monospace;}
-.pc-links{display:flex;gap:8px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px;}
-.pc-link{font-size:11px;color:var(--sub2);text-decoration:none;padding:3px 8px;background:var(--card2);border-radius:5px;transition:color .15s;}
-.pc-link:hover{color:var(--g);}
-
-/* ── ARCHIVE CARD ── */
-.acard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:10px;}
-.ac-title{font-size:14px;font-weight:600;margin-bottom:6px;}
-.ac-excerpt{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:10px;font-family:'Space Mono',monospace;}
-.ac-chips{display:flex;gap:6px;flex-wrap:wrap;}
-.ac-chip{padding:3px 8px;background:var(--card2);border-radius:5px;font-size:10px;color:var(--sub2);font-family:'Space Mono',monospace;}
-.ac-score{color:var(--g);}
-
-/* ── PULSE GRID ── */
-.pulse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:16px;}
-.pv{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;}
-.pv-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--sub);margin-bottom:8px;font-family:'Space Mono',monospace;}
-.pv-name{font-size:14px;font-weight:600;margin-bottom:4px;}
-.pv-liner{font-size:11px;color:var(--sub);margin-bottom:8px;line-height:1.4;}
-.pv-score{font-size:11px;font-family:'Space Mono',monospace;color:var(--g);margin-bottom:8px;}
-.pv-pills{display:flex;gap:5px;flex-wrap:wrap;}
-.pv-pill{padding:2px 7px;background:var(--card2);border-radius:5px;font-size:10px;color:var(--sub2);font-family:'Space Mono',monospace;}
-.pv-empty{font-size:28px;margin:8px 0;opacity:.15;}
-.pv-opp{font-size:11px;color:var(--sub);font-family:'Space Mono',monospace;}
-
-/* ── VALIDATE ── */
-.vbox{max-width:600px;margin:0 auto;}
-.vbox-title{font-size:18px;font-weight:700;margin-bottom:8px;}
-.vbox-sub{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:20px;}
-.v-area{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;color:var(--text);font-size:13px;font-family:'Space Grotesk',sans-serif;line-height:1.6;resize:vertical;min-height:120px;outline:none;transition:border-color .2s;}
-.v-area:focus{border-color:rgba(0,255,163,.3);}
-.v-run{margin-top:12px;background:var(--g);color:var(--bg);border:none;border-radius:12px;padding:13px 28px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;transition:all .2s;}
-.v-run:hover{opacity:.9;transform:translateY(-1px);}
-.verdict{border-radius:12px;padding:16px 20px;margin:16px 0;}
-.verdict.green_light{background:rgba(0,255,163,.06);border:1px solid rgba(0,255,163,.2);}
-.verdict.yellow_light{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);}
-.verdict.red_light{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);}
-.vd-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-family:'Space Mono',monospace;margin-bottom:6px;}
-.verdict.green_light .vd-label{color:var(--g);}
-.verdict.yellow_light .vd-label{color:var(--gold);}
-.verdict.red_light .vd-label{color:var(--red);}
-.vd-msg{font-size:13px;color:var(--text);line-height:1.6;}
-
-/* ── THINK BAR ── */
-.think-bar{display:flex;align-items:center;gap:14px;background:rgba(167,139,250,0.05);border:1px solid rgba(167,139,250,0.2);border-radius:16px;padding:16px 20px;margin-bottom:22px;}
-.think-info{flex:1;}
-.think-title{font-size:14px;font-weight:700;color:var(--purple);margin-bottom:3px;}
-.think-sub{font-size:11px;color:var(--sub);font-family:'Space Mono',monospace;}
-.think-btn{background:linear-gradient(135deg,#A78BFA,#60A5FA);color:var(--bg);border:none;border-radius:11px;padding:11px 22px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;transition:all .2s;white-space:nowrap;box-shadow:0 0 20px rgba(167,139,250,.2);}
-.think-btn:hover{opacity:.9;transform:translateY(-1px);}
-.think-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
-
-/* ── MOTHERBOARD ── */
-.motherboard{background:#08080F;border:1px solid rgba(167,139,250,0.2);border-radius:20px;padding:22px;margin-bottom:26px;position:relative;overflow:hidden;}
-.motherboard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(167,139,250,.4),transparent);}
-.mb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
-.mb-title-group{display:flex;align-items:center;gap:12px;}
-.mb-icon{font-size:22px;}
-.mb-name{font-size:15px;font-weight:700;color:var(--purple);}
-.mb-sub{font-size:10px;color:var(--sub);font-family:'Space Mono',monospace;margin-top:1px;}
-.mb-progress{display:flex;align-items:center;gap:10px;}
-.mb-count{font-size:13px;font-family:'Space Mono',monospace;color:var(--purple);font-weight:700;}
-.mb-bar{width:140px;height:4px;background:var(--card);border-radius:2px;overflow:hidden;}
-.mb-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:2px;transition:width .1s;}
-
-.mb-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-.mb-cat{padding:5px 12px;border-radius:8px;font-size:10px;font-family:'Space Mono',monospace;font-weight:700;cursor:pointer;border:1px solid;transition:all .2s;opacity:.45;}
-.mb-cat.active{opacity:1;}
-
-.mb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px;max-height:400px;overflow-y:auto;}
-.mb-grid::-webkit-scrollbar{width:3px;}
-.mb-grid::-webkit-scrollbar-thumb{background:var(--card2);border-radius:2px;}
-
-.thought{background:var(--card);border-radius:11px;padding:11px 14px;border-left:3px solid;animation:thinkin .18s ease;}
-@keyframes thinkin{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
-.thought-head{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
-.thought-icon{font-size:13px;}
-.thought-label{font-size:10px;font-weight:700;font-family:'Space Mono',monospace;opacity:.75;}
-.thought-id{font-size:9px;color:var(--sub);font-family:'Space Mono',monospace;margin-left:auto;}
-.thought-text{font-size:11px;color:var(--sub2);line-height:1.55;}
-
-/* ── THINKING PLACEHOLDER ── */
-.thought-placeholder{background:rgba(167,139,250,.03);border-radius:11px;padding:11px 14px;border-left:3px solid rgba(167,139,250,.2);opacity:.4;}
-.thinking-dots{display:inline-flex;gap:3px;margin-left:4px;}
-.thinking-dots span{width:4px;height:4px;background:var(--purple);border-radius:50%;animation:thinking-dot 1.2s infinite;}
-.thinking-dots span:nth-child(2){animation-delay:.2s;}
-.thinking-dots span:nth-child(3){animation-delay:.4s;}
-@keyframes thinking-dot{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
-
-/* ── FINAL VERDICT ── */
-.verdict-final{background:linear-gradient(135deg,#08080F 0%,#0D0D1A 100%);border-radius:22px;padding:30px;margin-top:4px;position:relative;overflow:hidden;}
-.verdict-final::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--g),var(--purple),var(--blue));}
-.verdict-final::after{content:'';position:absolute;bottom:-80px;right:-80px;width:200px;height:200px;background:radial-gradient(ellipse,rgba(0,255,163,.04),transparent 70%);pointer-events:none;}
-
-.vf-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(0,255,163,.08);border:1px solid rgba(0,255,163,.2);border-radius:9px;padding:6px 14px;font-size:10px;font-weight:700;color:var(--g);font-family:'Space Mono',monospace;margin-bottom:16px;}
-.vf-headline{font-size:22px;font-weight:800;line-height:1.3;margin-bottom:20px;letter-spacing:-.02em;}
-
-.vf-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-.vf-metric{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;}
-.vf-mv{font-size:22px;font-weight:800;font-family:'Space Mono',monospace;margin-bottom:4px;}
-.vf-ml{font-size:10px;color:var(--sub);text-transform:uppercase;letter-spacing:.1em;}
-
-.vf-block{margin-bottom:20px;}
-.vf-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--sub);margin-bottom:10px;font-family:'Space Mono',monospace;display:flex;align-items:center;gap:8px;}
-.vf-label::after{content:'';flex:1;height:1px;background:var(--line);}
-.vf-insights{display:flex;flex-direction:column;gap:10px;}
-.vf-insight{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--sub2);line-height:1.55;}
-.vf-dot{width:6px;height:6px;border-radius:50%;background:var(--g);flex-shrink:0;margin-top:6px;}
-
-.vf-adv{font-size:13px;color:var(--text);line-height:1.6;background:rgba(0,255,163,.03);border:1px solid rgba(0,255,163,.08);border-radius:12px;padding:14px 16px;}
-
-.vf-revenue{font-size:13px;color:var(--sub2);line-height:1.6;}
-
-.vf-moat{display:flex;gap:8px;flex-wrap:wrap;}
-.vf-moat-tag{padding:6px 14px;background:var(--card);border:1px solid var(--line);border-radius:9px;font-size:11px;color:var(--sub2);font-family:'Space Mono',monospace;}
-
-.vf-action{background:linear-gradient(135deg,rgba(0,255,163,.06),rgba(96,165,250,.04));border:1px solid rgba(0,255,163,.15);border-radius:16px;padding:18px 22px;margin-top:20px;}
-.vf-action-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--g);margin-bottom:10px;font-family:'Space Mono',monospace;}
-.vf-action-text{font-size:14px;color:var(--text);line-height:1.6;font-weight:600;}
-
-.err{color:var(--sub);font-size:13px;font-family:'Space Mono',monospace;padding:20px;text-align:center;}
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .section{padding:60px 20px;}
+  .hero{padding:30px 20px;}
+  .divider{margin:0 20px;}
+  footer{padding:30px 20px;}
+  .search-section{padding:40px 20px;}
+  .search-row{flex-direction:column;}
+}
 </style>
 </head>
 <body>
-<div class="shell">
-  <!-- RAIL -->
-  <div class="rail">
-    <div class="rail-logo" onclick="setView('research')">LBC</div>
-    <div class="rail-sep"></div>
-    <div class="rail-btn" id="rb-research" onclick="setView('research')">🔭<span class="rail-tip">Research</span></div>
-    <div class="rail-btn" id="rb-pulse" onclick="triggerPulse()">📡<span class="rail-tip">Ecosystem Pulse</span></div>
-    <div class="rail-btn" id="rb-validate" onclick="setView('validate')">💡<span class="rail-tip">Idea Validator</span></div>
-    <div class="rail-btn" id="rb-think" onclick="scrollToMotherboard()" style="display:none;">🧠<span class="rail-tip">Motherboard</span></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-box">LBC</div>
+    <span class="nav-brand"><span>LBC</span> Builder</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#ecosystem">Ecosystem</a>
+    <a class="nav-link" href="#products">Products</a>
+    <a class="nav-link" href="#token">$LBC Token</a>
+    <a class="nav-link" href="#intelligence">Intelligence</a>
+    <a class="nav-link" href="https://lbc-hub.com" target="_blank">LBC Hub</a>
+    <button class="nav-cta" onclick="document.getElementById('research').scrollIntoView({behavior:'smooth'})">Research Terminal</button>
   </div>
+</nav>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <div class="sb-head">
-      <div class="sb-title">Builder Intelligence</div>
-      <div class="sb-sub mono">lbchub.site · v5 · Motherboard</div>
-    </div>
-    <div class="sb-section">Verticals</div>
-    <div class="sb-link on" onclick="sq('social community SocialFi token Solana')"><span class="sl-icon">👥</span><span class="sl-txt">Social + Community</span><span class="sl-badge">4 found</span></div>
-    <div class="sb-link" onclick="sq('marketplace escrow p2p Solana')"><span class="sl-icon">🛒</span><span class="sl-txt">Marketplace</span><span class="sl-badge">3 found</span></div>
-    <div class="sb-link" onclick="sq('accommodation tourism Web3 mobile')"><span class="sl-icon">✈️</span><span class="sl-txt">Travel</span><span class="sl-badge" style="color:#00FFA3;background:rgba(0,255,163,.06)">EMPTY</span></div>
-    <div class="sb-link" onclick="sq('transport logistics token payment')"><span class="sl-icon">🚗</span><span class="sl-txt">Rides</span><span class="sl-badge" style="color:#00FFA3;background:rgba(0,255,163,.06)">EMPTY</span></div>
-    <div class="sb-link" onclick="sq('AI agent autonomous payments Solana')"><span class="sl-icon">🤖</span><span class="sl-txt">AI Agents</span><span class="sl-badge">4 found</span></div>
-    <div class="sb-link" onclick="sq('digital city infrastructure blockchain')"><span class="sl-icon">🏙️</span><span class="sl-txt">Digital City</span><span class="sl-badge">4 found</span></div>
-    <div class="sb-link" onclick="sq('concert festival token creator fan')"><span class="sl-icon">🎟️</span><span class="sl-txt">Live Events</span><span class="sl-badge" style="color:var(--orange)">NEW</span></div>
-    <div class="sb-link" onclick="sq('decentralized physical infrastructure network')"><span class="sl-icon">📡</span><span class="sl-txt">DePIN</span><span class="sl-badge">3 found</span></div>
-    <div class="sb-divider"></div>
-    <div class="sb-section">Recent</div>
-    <div class="sb-hist" id="histList"></div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <div class="eyebrow-dot"></div>
+    LBC Network — Live on Solana
   </div>
-
-  <!-- MAIN -->
-  <div class="main">
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="tb-toggle" onclick="toggleSidebar()">☰</div>
-      <div class="tb-path">
-        <span>lbchub.site</span>
-        <span class="sep">/</span>
-        <span class="cur" id="tbCur">research</span>
-        <span class="sep" id="mbSep" style="display:none;">/</span>
-        <span class="mb-crumb" id="mbCrumb" style="display:none;">motherboard</span>
-      </div>
-      <div class="tb-pills">
-        <div class="tb-pill"><span class="pl">projects</span><span class="pv">5,400+</span></div>
-        <div class="tb-pill"><span class="pl">lenses</span><span class="pv">100</span></div>
-        <div class="tb-pill live-pill"><div class="live-dot"></div><span>LIVE</span></div>
-      </div>
+  <h1 class="hero-title">
+    Build on the<br>
+    <span class="accent">Digital City</span>
+  </h1>
+  <p class="hero-sub">LBC is a multi-domain ecosystem for social connection, marketplace innovation, and AI-powered living — built on Solana, governed by $LBC.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('research').scrollIntoView({behavior:'smooth'})">
+      🔬 Research Terminal
+    </button>
+    <button class="btn-secondary" onclick="window.open('https://lbc-hub.com','_blank')">
+      🌐 Visit LBC Hub
+    </button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-val">5</div>
+      <div class="stat-lbl">Live Domains</div>
     </div>
-
-    <!-- CMD BAR -->
-    <div class="cmdbar" id="cmdBar">
-      <div class="cmd-row">
-        <div class="cmd-input">
-          <span class="cmd-prompt">$</span>
-          <input id="qInput" placeholder="Search 5,400+ Solana hackathon projects…" onkeydown="if(event.key==='Enter')runSearch()" oninput="document.getElementById('cmdX').classList.toggle('show',this.value.length>0)"/>
-          <button class="cmd-x" id="cmdX" onclick="clearAll()">✕</button>
-        </div>
-        <div class="cmd-modes">
-          <button class="cmd-mode on" id="m-standard" onclick="setMode('standard')">Standard</button>
-          <button class="cmd-mode" id="m-deep" onclick="setMode('deep')">🔬 Deep</button>
-          <button class="cmd-mode" id="m-archive" onclick="setMode('archive')">📚 Archive</button>
-        </div>
-        <button class="cmd-run" id="runBtn" onclick="runSearch()">RUN →</button>
-      </div>
-      <div class="filters" id="filters"></div>
+    <div class="stat">
+      <div class="stat-val">1B</div>
+      <div class="stat-lbl">$LBC Supply</div>
     </div>
-
-    <!-- CONTENT -->
-    <div class="content" id="content">
-      <!-- EMPTY -->
-      <div id="emptyState" class="empty">
-        <div class="empty-icon">🔭</div>
-        <div class="empty-title">Search the Solana ecosystem for LBC intelligence</div>
-        <div class="empty-sub">5,400+ hackathon projects · 84,000+ archive docs · 100-lens Motherboard</div>
-        <div class="empty-chips">
-          <div class="empty-chip" onclick="sq('social community SocialFi token Solana')">Social + Token Rewards</div>
-          <div class="empty-chip" onclick="sq('AI agent autonomous payments Solana')">AI Agents</div>
-          <div class="empty-chip" onclick="sq('digital city infrastructure blockchain')">Digital City</div>
-          <div class="empty-chip" onclick="sq('accommodation tourism Web3 mobile')">Travel</div>
-          <div class="empty-chip" onclick="sq('transport logistics token payment')">Ride / Mobility</div>
-          <div class="empty-chip" onclick="sq('concert festival token creator fan')">Live Events</div>
-        </div>
-      </div>
-      <!-- LOADER -->
-      <div class="loader" id="loader">
-        <div class="l-title" id="lTitle">Querying LBC Intelligence</div>
-        <div class="l-sub" id="lSub">connecting…</div>
-        <div class="l-bar"><div class="l-fill" id="lFill" style="width:30%"></div></div>
-        <div class="lsteps" id="lSteps"></div>
-      </div>
-      <!-- RESULTS -->
-      <div id="results" style="display:none;"></div>
+    <div class="stat">
+      <div class="stat-val">3</div>
+      <div class="stat-lbl">Countries</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">$2K</div>
+      <div class="stat-lbl">LBC Auto Live</div>
     </div>
   </div>
 </div>
 
+<div class="divider"></div>
+
+<!-- ECOSYSTEM -->
+<div id="ecosystem">
+<div class="section">
+  <div class="section-eyebrow">The Ecosystem</div>
+  <h2 class="section-title">Five domains.<br>One Digital City.</h2>
+  <p class="section-sub">Every domain in the LBC ecosystem plays a distinct role — together they form an interconnected city where people live, work, trade, and build.</p>
+
+  <div class="domains">
+    <div class="domain-card green">
+      <div class="dc-icon">🏛️</div>
+      <div class="dc-name">lbc.network</div>
+      <div class="dc-title">Foundation</div>
+      <div class="dc-desc">The root layer. Governance, digital identity, and the architectural blueprint of the Digital City.</div>
+      <div class="dc-tags"><span class="dc-tag">Governance</span><span class="dc-tag">Identity</span><span class="dc-tag">Protocol</span></div>
+    </div>
+    <div class="domain-card purple">
+      <div class="dc-icon">⚡</div>
+      <div class="dc-name">lbchub.io</div>
+      <div class="dc-title">Protocol Hub</div>
+      <div class="dc-desc">The DeFi and token layer. $LBC home base — liquidity, staking, and protocol integrations.</div>
+      <div class="dc-tags"><span class="dc-tag">DeFi</span><span class="dc-tag">$LBC</span><span class="dc-tag">Liquidity</span></div>
+    </div>
+    <div class="domain-card blue">
+      <div class="dc-icon">🌆</div>
+      <div class="dc-name">lbc-hub.com</div>
+      <div class="dc-title">Community Hub</div>
+      <div class="dc-desc">The consumer face. Social feed, marketplace, AI travel planner, ride sharing, and ideas.</div>
+      <div class="dc-tags"><span class="dc-tag">Social</span><span class="dc-tag">Marketplace</span><span class="dc-tag">Travel</span></div>
+    </div>
+    <div class="domain-card gold">
+      <div class="dc-icon">🛠️</div>
+      <div class="dc-name">lbchub.site</div>
+      <div class="dc-title">Builder Tools</div>
+      <div class="dc-desc">You are here. Developer tools, SDK, APIs, and intelligence terminals for builders on LBC.</div>
+      <div class="dc-tags"><span class="dc-tag">SDK</span><span class="dc-tag">APIs</span><span class="dc-tag">Intelligence</span></div>
+    </div>
+    <div class="domain-card orange">
+      <div class="dc-icon">🎪</div>
+      <div class="dc-name">lbchub.live</div>
+      <div class="dc-title">Live Events</div>
+      <div class="dc-desc">Creator economy, NFT tickets, streaming, fan tokens, and live experiences powered by $LBC.</div>
+      <div class="dc-tags"><span class="dc-tag">NFT</span><span class="dc-tag">Creator</span><span class="dc-tag">Streaming</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRODUCTS -->
+<div id="products">
+<div class="section">
+  <div class="section-eyebrow">Live Products</div>
+  <h2 class="section-title">Real products.<br>Real revenue.</h2>
+  <p class="section-sub">LBC is not a whitepaper — it is a running ecosystem with live deployments generating real-world traction.</p>
+
+  <div class="products">
+    <div class="product-card">
+      <div class="pc-header">
+        <div class="pc-icon-wrap green">🔧</div>
+        <span class="pc-badge live">● LIVE REVENUE</span>
+      </div>
+      <div class="pc-title">LBC Auto</div>
+      <div class="pc-desc">AI-powered auto shop management software. Currently deployed at Terry Fox Auto Center, Gatineau QC. Accepts Solana payments.</div>
+      <div class="pc-features">
+        <div class="pc-feature">Customer & vehicle management</div>
+        <div class="pc-feature">Repair orders, estimates, invoicing</div>
+        <div class="pc-feature">VIN lookup & AI diagnostics</div>
+        <div class="pc-feature">USDC + $LBC payments</div>
+        <div class="pc-feature">$2,000 USDC — one-time, no subscriptions</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="pc-header">
+        <div class="pc-icon-wrap blue">🌆</div>
+        <span class="pc-badge deployed">● DEPLOYED</span>
+      </div>
+      <div class="pc-title">LBC Hub</div>
+      <div class="pc-desc">The social and community layer of the Digital City. AI-powered social feed, marketplace, travel planner, and ride sharing.</div>
+      <div class="pc-features">
+        <div class="pc-feature">AI social feed with 34+ bots</div>
+        <div class="pc-feature">Marketplace for goods & services</div>
+        <div class="pc-feature">AI travel itinerary generator</div>
+        <div class="pc-feature">Ride sharing with $LBC payments</div>
+        <div class="pc-feature">Community ideas & governance</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="pc-header">
+        <div class="pc-icon-wrap purple">💎</div>
+        <span class="pc-badge deployed">● DEPLOYED</span>
+      </div>
+      <div class="pc-title">LBC Wallet</div>
+      <div class="pc-desc">Solana-native wallet with $LBC token integration — the payment layer across all LBC ecosystem products.</div>
+      <div class="pc-features">
+        <div class="pc-feature">Solana-native wallet</div>
+        <div class="pc-feature">$LBC + USDC support</div>
+        <div class="pc-feature">Cross-ecosystem payments</div>
+        <div class="pc-feature">Phantom Connect compatible</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="pc-header">
+        <div class="pc-icon-wrap gold">🧠</div>
+        <span class="pc-badge live">● AUTONOMOUS</span>
+      </div>
+      <div class="pc-title">LBC Brain</div>
+      <div class="pc-desc">The autonomous AI intelligence layer running across the entire ecosystem — monitoring competitors, generating ideas, and evolving daily.</div>
+      <div class="pc-features">
+        <div class="pc-feature">Daily ecosystem health scoring</div>
+        <div class="pc-feature">Autonomous competitor tracking</div>
+        <div class="pc-feature">AI feature idea generation</div>
+        <div class="pc-feature">Self-learning & self-updating</div>
+        <div class="pc-feature">5,400+ project knowledge base</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- TOKEN -->
+<div id="token">
+<div class="section">
+  <div class="section-eyebrow">$LBC Token</div>
+  <h2 class="section-title">The currency of<br>the Digital City.</h2>
+  <p class="section-sub">$LBC powers every transaction, reward, and governance decision across the LBC ecosystem on Solana.</p>
+
+  <div class="token-box">
+    <div class="token-left">
+      <div class="token-symbol">$LBC</div>
+      <div class="token-name">LBC Network Token — Solana Mainnet</div>
+      <div class="token-address">Mint Address:<br><span>2UoettzUUevYNNMhLYACqxjbvkpS4dnCZhbV6xFkuKkT</span></div>
+    </div>
+    <div class="token-stats">
+      <div class="ts">
+        <div class="ts-val">1B</div>
+        <div class="ts-lbl">Total Supply</div>
+        <div class="ts-status">Fixed Supply</div>
+      </div>
+      <div class="ts">
+        <div class="ts-val">NULL</div>
+        <div class="ts-lbl">Mint Authority</div>
+        <div class="ts-status">Renounced</div>
+      </div>
+      <div class="ts">
+        <div class="ts-val">7%</div>
+        <div class="ts-lbl">Team Allocation</div>
+        <div class="ts-status">4-Year Vest</div>
+      </div>
+      <div class="ts">
+        <div class="ts-val">7%</div>
+        <div class="ts-lbl">Ecosystem Fund</div>
+        <div class="ts-status">Community</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- INTELLIGENCE / RESEARCH TERMINAL -->
+<div id="intelligence">
+<div class="section">
+  <div class="section-eyebrow">LBC Intelligence</div>
+  <h2 class="section-title">The brain that never<br>stops watching.</h2>
+  <p class="section-sub">LBC's autonomous intelligence layer monitors the entire Solana ecosystem daily — scoring verticals, tracking competitors, and generating new ideas.</p>
+
+  <div class="intel-box">
+    <div class="intel-header">
+      <div class="intel-icon">🧠</div>
+      <div>
+        <div class="intel-title">LBC Brain — Autonomous Intelligence</div>
+        <div class="intel-sub">Self-governing AI. Learns, scores, creates, reports — 24/7.</div>
+      </div>
+    </div>
+    <div class="intel-features">
+      <div class="if-item">
+        <div class="if-icon">📊</div>
+        <div class="if-title">Daily Health Scores</div>
+        <div class="if-desc">8 ecosystem verticals scored 0-100 every morning. Current: 74/100 overall.</div>
+      </div>
+      <div class="if-item">
+        <div class="if-icon">🎯</div>
+        <div class="if-title">Whitespace Detection</div>
+        <div class="if-desc">Travel & Ride verticals at 95/100 opportunity — zero Solana competitors found.</div>
+      </div>
+      <div class="if-item">
+        <div class="if-icon">💡</div>
+        <div class="if-title">Idea Generation</div>
+        <div class="if-desc">Generates grounded feature ideas weekly, assigns to domains, creates GitHub issues.</div>
+      </div>
+      <div class="if-item">
+        <div class="if-icon">🔄</div>
+        <div class="if-title">Self-Learning Loop</div>
+        <div class="if-desc">Community, builder, and brain nodes sync every 6h and evolve every Monday.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- RESEARCH TERMINAL -->
+<div id="research">
+<div class="search-section">
+  <div class="search-wrap">
+    <div class="search-title">🔬 LBC Research Terminal</div>
+    <div class="search-sub">Search 5,400+ Solana hackathon projects. Find competitors, whitespace, and inspiration.</div>
+    <div class="search-row">
+      <input class="search-input" id="searchInput" placeholder="e.g. social community Solana token rewards..." onkeydown="if(event.key==='Enter')runSearch()"/>
+      <button class="search-btn" onclick="runSearch()">SEARCH</button>
+    </div>
+    <div class="loading-msg" id="loadingMsg">⏳ Querying LBC Intelligence...</div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+</div>
+
+<!-- TERMINAL DEMO -->
+<div class="section" style="padding-top:0;">
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="term-dot r"></div>
+      <div class="term-dot y"></div>
+      <div class="term-dot g"></div>
+      <div class="term-title">lbc-brain — ecosystem-pulse</div>
+    </div>
+    <div class="term-body">
+      <div class="term-line"><span class="term-prompt">lbc@brain:~$</span> <span class="term-cmd">ecosystem-pulse --all-verticals</span></div>
+      <div class="term-line"><span class="term-info">◆ Connecting to LBC Intelligence API...</span></div>
+      <div class="term-line"><span class="term-success">✓ Authenticated | 5,400+ projects indexed</span></div>
+      <div class="term-line">&nbsp;</div>
+      <div class="term-line"><span class="term-info">VERTICAL SCORES (Week of May 13, 2026)</span></div>
+      <div class="term-line"><span class="term-success">■ Community     62/100  ████████░░░░░░  ACTIVE</span></div>
+      <div class="term-line"><span class="term-success">■ AI Agents     78/100  ██████████░░░░  STRONG</span></div>
+      <div class="term-line"><span class="term-success">■ Digital City  71/100  █████████░░░░░  GROWING</span></div>
+      <div class="term-line" style="color:var(--gold);">■ Marketplace   55/100  ███████░░░░░░░  OPPORTUNITY</div>
+      <div class="term-line" style="color:var(--g);font-weight:700;">■ Travel        95/100  ██████████████  ⚡ EMPTY SPACE</div>
+      <div class="term-line" style="color:var(--g);font-weight:700;">■ Ride Share    95/100  ██████████████  ⚡ EMPTY SPACE</div>
+      <div class="term-line">&nbsp;</div>
+      <div class="term-line"><span class="term-info">► Overall Health: 74/100 | Last idea generated: LBC Travel Loyalty Layer</span></div>
+      <div class="term-line"><span class="term-prompt">lbc@brain:~$</span> <span class="term-cursor"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-box">LBC</div>
+    <span class="footer-brand"><span>LBC</span> Network</span>
+  </div>
+  <div class="footer-links">
+    <a class="footer-link" href="https://lbc-hub.com" target="_blank">LBC Hub</a>
+    <a class="footer-link" href="https://lbchub.io" target="_blank">Protocol</a>
+    <a class="footer-link" href="https://lbc.network" target="_blank">Network</a>
+    <a class="footer-link" href="https://lbchub.tech" target="_blank">LBC Auto</a>
+    <a class="footer-link" href="https://github.com/LBCinchub" target="_blank">GitHub</a>
+  </div>
+  <div class="footer-copy">LBC NETWORK inc · Ottawa, Canada · Built on Solana</div>
+</footer>
+
 <script>
-const API='https://lumina-7c020410.base44.app/functions/lbcIntelligence';
-const H={'Content-Type':'application/json'};
-let mode='standard', view='research', running=false, sidebarOpen=true;
-let hist=[];try{hist=JSON.parse(localStorage.getItem('lbc_h5')||'[]');}catch{}
-let filters=[], thinkRunning=false, currentResults=null;
+async function runSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  const results = document.getElementById('searchResults');
+  const loading = document.getElementById('loadingMsg');
+  results.innerHTML = '';
+  loading.style.display = 'block';
 
-// ── HACKATHONS ──
-const HACKS=['Renaissance','Radar','Breakpoint','Superteam','Colosseum','Grizzlython'];
-const $ = id => document.getElementById(id);
-
-// ── INIT FILTERS ──
-const fEl=$('filters');
-HACKS.forEach(h=>{
-  const d=document.createElement('div');
-  d.className='filter-tag'; d.textContent=h; d.dataset.h=h;
-  d.onclick=()=>{d.classList.toggle('on');filters=HACKS.filter(x=>document.querySelector(`.filter-tag[data-h="${x}"]`)?.classList.contains('on'));};
-  fEl.appendChild(d);
-});
-
-function toggleSidebar(){sidebarOpen=!sidebarOpen;$('sidebar').classList.toggle('collapsed',!sidebarOpen);}
-function setView(v){
-  view=v;
-  $('cmdBar').style.display=v==='research'?'':'none';
-  ['research','pulse','validate','think'].forEach(x=>$('rb-'+x)&&$('rb-'+x).classList.toggle('on',x===v));
-  $('tbCur').textContent=v==='pulse'?'ecosystem_pulse':v==='validate'?'idea_validator':'research';
-  if(v==='validate'){showValidate();}
-  else if(v!=='research'){$('emptyState').style.display='none';}
-}
-function setMode(m){
-  mode=m;
-  document.querySelectorAll('.cmd-mode').forEach(b=>b.classList.remove('on'));
-  $('m-'+m).classList.add('on');
-}
-function clearAll(){$('qInput').value='';$('cmdX').classList.remove('show');showEmpty();}
-function sq(q){setView('research');$('qInput').value=q;$('cmdX').classList.add('show');runSearch();}
-function addHist(q,m){hist=[{q,m,t:Date.now()},...hist.filter(h=>h.q!==q)].slice(0,14);localStorage.setItem('lbc_h5',JSON.stringify(hist));renderHist();}
-function ago(t){const s=Math.floor((Date.now()-t)/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
-function renderHist(){const c=$('histList');c.innerHTML=hist.map(h=>`<div class="sh-item" onclick="sq('${h.q.replace(/'/g,"\\'")}')"><div class="shi-q">${h.q}</div><div class="shi-m">${h.m} · ${ago(h.t)}</div></div>`).join('');}
-function showEmpty(){$('emptyState').style.display='';$('loader').classList.remove('on');$('results').style.display='none';hideMbCrumb();}
-function showLoader(t,s){$('emptyState').style.display='none';$('results').style.display='none';const l=$('loader');l.classList.add('on');$('lTitle').textContent=t;$('lSub').textContent=s;$('lFill').style.width='20%';}
-function hideLoader(){$('loader').classList.remove('on');$('lFill').style.width='100%';}
-function showMbCrumb(){$('mbSep').style.display='';$('mbCrumb').style.display='';$('rb-think').style.display='';}
-function hideMbCrumb(){$('mbSep').style.display='none';$('mbCrumb').style.display='none';}
-function scrollToMotherboard(){const mb=document.querySelector('.motherboard');if(mb)mb.scrollIntoView({behavior:'smooth'});}
-
-async function api(p){const r=await fetch(API,{method:'POST',headers:H,body:JSON.stringify(p)});return r.json();}
-
-async function runSearch(){
-  const q=$('qInput').value.trim();
-  if(!q||running)return;
-  running=true;$('runBtn').disabled=true;
-  currentResults=null; hideMbCrumb();
-  addHist(q,mode);
-  showLoader(mode==='deep'?'Deep Intelligence Scan':mode==='archive'?'Searching Archive':'Searching Projects',`${mode} · "${q}"`);
-  $('lFill').style.width='30%';
-  $('lSteps').innerHTML=`<div class="lstep now"><div class="lstep-dot"></div>Querying ${mode} endpoint…</div>`;
-  try{
-    const hf=filters.length?{hackathons:filters}:{};
-    let j;
-    if(mode==='deep') j=await api({action:'deep_dive',query:q,filters:hf});
-    else if(mode==='archive') j=await api({action:'search_archives',query:q,limit:12,maxChunksPerDoc:2,intent:'ideation'});
-    else j=await api({action:'search_projects',query:q,limit:12,filters:hf,diversify:true});
-    hideLoader();
-    if(j?.success){currentResults={data:j.data,mode,query:q};renderResults(j.data,q,mode);}
-    else showErr(j?.error||'API error');
-  }catch(e){hideLoader();showErr(e.message);}
-  running=false;$('runBtn').disabled=false;
-}
-
-async function triggerPulse(){
-  setView('pulse');
-  showLoader('Scanning 8 LBC Verticals','ecosystem_pulse · live');
-  $('lFill').style.width='30%';
-  $('lSteps').innerHTML=`<div class="lstep now"><div class="lstep-dot"></div>Querying all 8 verticals…</div>`;
-  try{
-    const j=await api({action:'ecosystem_pulse'});
-    hideLoader();
-    if(!j?.success){showErr(j?.error||'API error');return;}
-    renderPulse(j.data);
-  }catch(e){hideLoader();showErr(e.message);}
-}
-
-// ── EMOJI ──
-function em(p){
-  const t=`${p.oneLiner||''} ${(p.tags?.techStack||[]).join(' ')}`.toLowerCase();
-  if(t.includes('ai')||t.includes('agent'))return'🤖';
-  if(t.includes('travel')||t.includes('booking'))return'✈️';
-  if(t.includes('social')||t.includes('community'))return'👥';
-  if(t.includes('depin')||t.includes('physical'))return'📡';
-  if(t.includes('defi')||t.includes('swap'))return'💱';
-  if(t.includes('nft')||t.includes('ticket'))return'🎟️';
-  if(t.includes('payment')||t.includes('stable'))return'💸';
-  if(t.includes('market'))return'🛒';
-  if(t.includes('game'))return'🎮';
-  return'⚡';
-}
-
-// ── RENDER HELPERS ──
-function angleBox(t){return`<div class="angle"><div class="angle-icon">⚡</div><div><div class="ab-label">LBC Angle</div><div class="ab-text">${t}</div></div></div>`;}
-function wsRow(ws){return`<div class="ws-row">${ws.map(w=>`<div class="ws-tag">${w}</div>`).join('')}</div>`;}
-function dnaBox(dna){
-  const max=Math.max(...Object.values(dna).map(Number),1);
-  return`<div class="dna"><div class="dna-head"><div class="dna-title">🔬 Tech DNA</div><span class="dna-ct">${Object.keys(dna).length} signals</span></div><div class="dna-rows">
-    ${Object.entries(dna).slice(0,10).map(([k,v])=>`<div class="dna-row"><div class="dr-name">${k}</div><div class="dr-bar"><div class="dr-fill" style="width:${(Number(v)/max)*100}%"></div></div><div class="dr-n">${v}</div></div>`).join('')}
-  </div></div>`;
-}
-function projCard(p){
-  const score=p.lbc_score||Math.round((p.similarity||0)*100*10)/10;
-  const ev=(p.evidence||[]).filter(Boolean);
-  const stack=[...(p.tags?.techStack||[]),...(p.tags?.primitives||[])].slice(0,5);
-  const link=p.links?.colosseum,gh=p.links?.github,demo=p.links?.demo||p.links?.presentation;
-  return`<div class="pcard" onclick="if(event.target.tagName!=='A'&&'${link||''}')window.open('${link||'#'}','_blank')">
-    <div class="pc-top"><div class="pc-avatar">${em(p)}</div><div class="pc-info">
-      <div class="pc-name">${p.name}</div>
-      <div class="pc-chips">
-        ${p.hackathon?.name?`<span class="chip chip-hack">${p.hackathon.name}</span>`:''}
-        ${score?`<span class="chip chip-score">LBC ${score}</span>`:''}
-        ${p.prize||p.lbc_signals?.is_winner?`<span class="chip chip-win">🏆 Winner</span>`:''}
-        ${p.accelerator||p.lbc_signals?.is_accelerated?`<span class="chip chip-acc">⚡ Accel</span>`:''}
-        ${p.crowdedness?`<span class="chip chip-crowd">${p.crowdedness}</span>`:''}
-      </div></div></div>
-    ${p.oneLiner?`<div class="pc-liner">${p.oneLiner}</div>`:''}
-    ${ev[0]?`<div class="pc-quote">"${ev[0]}"</div>`:''}
-    ${stack.length?`<div class="pc-tags">${stack.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>`:''}
-    ${link||gh||demo?`<div class="pc-links">
-      ${link?`<a class="pc-link" href="${link}" target="_blank" onclick="event.stopPropagation()">🏛 Colosseum</a>`:''}
-      ${gh?`<a class="pc-link" href="${gh}" target="_blank" onclick="event.stopPropagation()">⌥ GitHub</a>`:''}
-      ${demo?`<a class="pc-link" href="${demo}" target="_blank" onclick="event.stopPropagation()">▶ Demo</a>`:''}
-    </div>`:''}
-  </div>`;
-}
-function archCard(a){
-  return`<div class="acard">
-    <div class="ac-title">${a.title||a.doc_id||'Archive Doc'}</div>
-    <div class="ac-excerpt">${(a.excerpt||a.chunk||'').slice(0,220)}…</div>
-    <div class="ac-chips">
-      ${a.similarity?`<span class="ac-chip ac-score">score ${Math.round(a.similarity*1000)/10}</span>`:''}
-      ${a.hackathon?`<span class="ac-chip">${a.hackathon}</span>`:''}
-      ${(a.tags||[]).slice(0,3).map(t=>`<span class="ac-chip">${t}</span>`).join('')}
-    </div></div>`;
-}
-
-function renderResults(d,q,m){
-  const pane=$('results');pane.style.display='';
-  if(m==='archive'){
-    const items=d.results||[];
-    pane.innerHTML=`<div class="r-head"><div class="rh-query">Archive: <em>"${q}"</em></div><div class="rh-meta"><div class="rh-tag">${items.length} docs</div><div class="rh-acts"><div class="rh-act" onclick="clearAll()">✕ Clear</div></div></div></div>
-      ${items.map(archCard).join('')||'<p class="err">No archive docs found.</p>'}`;
-    return;
-  }
-  const projs=m==='deep'?(d.projects||[]):(d.results||[]);
-  const archives=d.archives||[];
-  const intel=d.intelligence||{};
-  const dna=(m==='deep'?intel.tech_dna:d.tech_dna)||{};
-  const ws=(m==='deep'?intel.whitespace_opportunities:d.whitespace_opportunities)||[];
-  const angle=(m==='deep'?intel.lbc_angle:d.lbc_angle)||'';
-  const winners=projs.filter(p=>p.prize||p.lbc_signals?.is_winner).length;
-  const accel=projs.filter(p=>p.accelerator||p.lbc_signals?.is_accelerated).length;
-  const avg=projs.length?Math.round(projs.reduce((s,p)=>s+(p.lbc_score||0),0)/projs.length*10)/10:0;
-  const hacks=[...new Set(projs.map(p=>p.hackathon?.name).filter(Boolean))].length;
-
-  window._projs=projs; window._archs=archives;
-
-  pane.innerHTML=`
-    <div class="r-head">
-      <div class="rh-query">Results for <em>"${q}"</em></div>
-      <div class="rh-meta">
-        <div class="rh-tag">${projs.length} found</div>
-        <div class="rh-tag">${m.toUpperCase()}</div>
-        <div class="rh-acts"><div class="rh-act" onclick="clearAll()">✕ Clear</div></div>
-      </div>
-    </div>
-
-    ${projs.length>0?`<div class="think-bar">
-      <div class="think-info">
-        <div class="think-title">🧠 Motherboard Analysis</div>
-        <div class="think-sub">Fire 100 AI lenses simultaneously → competitive · opportunity · tokenomics · tech · community · strategic → one final LBC verdict</div>
-      </div>
-      <button class="think-btn" id="thinkBtn" onclick="startThinking('${q.replace(/'/g,"\\'")}')">⚡ THINK × 100</button>
-    </div>`:'' }
-
-    <div id="motherboardZone"></div>
-
-    ${m==='deep'?`<div class="stat-row">
-      <div class="stat"><div class="s-num" style="color:var(--g)">${projs.length}</div><div class="s-label">Projects</div></div>
-      <div class="stat"><div class="s-num" style="color:var(--gold)">${winners}</div><div class="s-label">Winners</div></div>
-      <div class="stat"><div class="s-num" style="color:var(--purple)">${accel}</div><div class="s-label">Accelerated</div></div>
-      <div class="stat"><div class="s-num" style="color:var(--g)">${avg}</div><div class="s-label">Avg Score</div></div>
-      <div class="stat"><div class="s-num" style="color:var(--blue);font-size:16px">${hacks}</div><div class="s-label">Hackathons</div></div>
-    </div>`:''}
-
-    ${angle?angleBox(angle):''}
-    ${ws.length?wsRow(ws):''}
-    ${Object.keys(dna).length?dnaBox(dna):''}
-
-    ${projs.length||archives.length?`<div class="tabs">
-      <div class="tab on" id="t-proj" onclick="switchTab('proj')">Projects<span class="tab-n">${projs.length}</span></div>
-      ${archives.length?`<div class="tab" id="t-arch" onclick="switchTab('arch')">Archive<span class="tab-n">${archives.length}</span></div>`:''}
-    </div>`:''}
-    <div id="tabContent">${projs.length?projs.map(projCard).join(''):'<p class="err">No projects found.</p>'}</div>
-  `;
-}
-function switchTab(t){
-  ['proj','arch'].forEach(x=>{const e=$('t-'+x);if(e)e.classList.toggle('on',x===t);});
-  $('tabContent').innerHTML=t==='proj'?window._projs.map(projCard).join(''):window._archs.map(archCard).join('');
-}
-function renderPulse(d){
-  const pane=$('results');pane.style.display='';
-  const vs=d.verticals||[],sum=d.ecosystem_summary||{};
-  pane.innerHTML=`
-    <div class="r-head"><div class="rh-query">Ecosystem <em>Pulse</em></div>
-    <div class="rh-meta"><div class="rh-tag">${sum.lbc_coverage||'8 verticals'}</div><div class="rh-tag">${d.pulse_date||'live'}</div>
-    <div class="rh-acts"><div class="rh-act">📊 ${sum.total_projects_scanned||0} scanned</div><div class="rh-act">🏆 ${sum.total_winners_found||0} winners</div></div></div></div>
-    ${sum.hottest_vertical?angleBox(`Hottest vertical: <strong>${sum.hottest_vertical}</strong> — Overall health: <strong>${sum.health_score}/100</strong>`):''}
-    <div class="pulse-grid">
-      ${vs.map(v=>`<div class="pv">
-        <div class="pv-label">${v.vertical}</div>
-        ${v.top_project?`<div class="pv-name">${v.top_project.name}</div><div class="pv-liner">${v.top_project.oneLiner||''}</div><div class="pv-score">LBC ${v.top_project.lbc_score}</div>
-        <div class="pv-pills">${v.top_project.hackathon?`<span class="pv-pill">${v.top_project.hackathon}</span>`:''}${v.winners?`<span class="pv-pill">🏆 ${v.winners}</span>`:''}<span class="pv-pill">${v.project_count} found</span></div>`
-        :`<div class="pv-empty">◇</div><div class="pv-opp">${v.opportunity}</div>`}
-      </div>`).join('')}
-    </div>`;
-}
-function showValidate(){
-  $('emptyState').style.display='none';$('loader').classList.remove('on');
-  $('results').style.display='';
-  $('results').innerHTML=`<div class="vbox">
-    <div class="vbox-title">Idea Validator</div>
-    <div class="vbox-sub">Describe an LBC feature idea. I'll check if it's being built on Solana and score your opportunity window.</div>
-    <textarea class="v-area" id="ideaBox" placeholder="e.g. A community marketplace where users earn $LBC rewards for verified travel reviews, with AI-powered local discovery and instant crypto settlement…"></textarea>
-    <button class="v-run" onclick="runValidate()">🔍 Validate This Idea</button>
-    <div id="vResult"></div>
-  </div>`;
-}
-async function runValidate(){
-  const idea=$('ideaBox').value.trim(); if(!idea)return;
-  $('vResult').innerHTML=`<div style="padding:20px;color:var(--sub);font-family:'Space Mono',monospace;font-size:12px;text-align:center;">🔍 Scanning 5,400 projects…</div>`;
-  const j=await api({action:'validate_idea',idea});
-  if(!j?.success){$('vResult').innerHTML=`<p class="err">Error: ${j?.error}</p>`;return;}
-  const d=j.data;
-  $('vResult').innerHTML=`
-    <div class="verdict v-${d.verdict}"><div class="vd-label">${(d.verdict||'').replace(/_/g,' ')}</div><div class="vd-msg">${d.verdict_message}</div></div>
-    ${d.lbc_opportunity?angleBox(d.lbc_opportunity):''}
-    ${d.stats?`<div style="font-size:12px;color:var(--sub2);margin-bottom:16px;font-family:'Space Mono',monospace;">${d.stats.projects_found} similar · avg ${d.stats.avg_similarity}% similarity · top: <strong style="color:var(--text)">${d.stats.top_match||'none'}</strong></div>`:''}
-    ${Object.keys(d.tech_dna||{}).length?dnaBox(d.tech_dna):''}
-    ${(d.similar_projects||[]).slice(0,3).map(projCard).join('')}
-  `;
-}
-function showErr(msg){$('results').style.display='';$('results').innerHTML=`<div class="err">⚠ Error: ${msg}</div>`;}
-
-// ══════════════════════════════════════════════════════════════════
-// 100 THINK LENSES
-// ══════════════════════════════════════════════════════════════════
-const LENSES=[
-  {id:1,cat:'competitive',color:'#F87171',icon:'⚔️',label:'Direct Threat?',fn:(d,q)=>`${d.topNames[0]||'No project'} is closest to LBC's ${q} vision. They have ${d.winners} winners across ${d.count} projects. Threat level: ${d.count>5?'HIGH':'LOW'}.`},
-  {id:2,cat:'competitive',color:'#F87171',icon:'🔴',label:'Market Saturation',fn:(d,q)=>`${d.count} projects found for "${q}". ${d.count>8?'CROWDED — hard to differentiate.':d.count>3?'MODERATE — room to lead.':'OPEN — LBC can be first mover.'}`},
-  {id:3,cat:'competitive',color:'#F87171',icon:'🏆',label:'Winner Analysis',fn:(d,q)=>`${d.winners} hackathon winners in this space. ${d.winners>3?'Multiple validated approaches — copy the best mechanics.':'Few proven winners — opportunity to set the standard.'}`},
-  {id:4,cat:'competitive',color:'#F87171',icon:'⚡',label:'Accelerator Backing',fn:(d,q)=>`${d.accel} projects are accelerator-backed. ${d.accel>2?'VC money is flowing — move fast.':'Low institutional backing — LBC can own this narrative.'}`},
-  {id:5,cat:'competitive',color:'#F87171',icon:'📊',label:'Score Distribution',fn:(d,q)=>`Average LBC relevance score: ${d.avgScore}. ${d.avgScore>25?'HIGH alignment — this vertical is LBC-native.':d.avgScore>15?'MODERATE — needs LBC positioning.':'LOW — stretch for LBC.'}`},
-  {id:6,cat:'competitive',color:'#F87171',icon:'🗓️',label:'Timing Window',fn:(d,q)=>`${d.hackathons} hackathons produced results here. ${d.hackathons>3?'Multiple cycles = mature space.':'Early stage — LBC has 6-12 month window before crowding.'}`},
-  {id:7,cat:'competitive',color:'#F87171',icon:'🌍',label:'Geographic Edge',fn:(d,q)=>`LBC is Canada-based. Most Solana projects target US/EU. "${q}" in LBC's hands means underserved MENA, Africa, Caribbean markets.`},
-  {id:8,cat:'competitive',color:'#F87171',icon:'🔗',label:'Chain Competition',fn:(d,q)=>`All ${d.count} projects are Solana-native. No EVM equivalents in dataset. ${d.count>5?'Solana is the battlefield — LBC is already there.':'Green field on Solana.'}`},
-  {id:9,cat:'competitive',color:'#F87171',icon:'💀',label:'Dead Projects',fn:(d,q)=>`Of ${d.count} projects, most are hackathon-only with no follow-through. LBC shipping to production differentiates from 80% immediately.`},
-  {id:10,cat:'competitive',color:'#F87171',icon:'🎯',label:'Niche Defensibility',fn:(d,q)=>`"${q}" + community ownership + $LBC token rewards = defensible moat pure-tech competitors cannot replicate.`},
-  {id:11,cat:'competitive',color:'#F87171',icon:'📈',label:'Trend Velocity',fn:(d,q)=>`${d.count} projects across ${d.hackathons} hackathon cycles. Trend is ${d.count>6?'accelerating':'early'} — ${d.count>6?'join now or miss the wave':'perfect timing to enter'}.`},
-  {id:12,cat:'competitive',color:'#F87171',icon:'🧱',label:'Barrier to Entry',fn:(d,q)=>`"${q}" requires Solana integration + community trust + marketplace liquidity. LBC has all three via lbc-hub.com. Barrier LOW for LBC, HIGH for newcomers.`},
-  {id:13,cat:'competitive',color:'#F87171',icon:'🤝',label:'Partnership Signal',fn:(d,q)=>`${d.accel} accelerator-backed projects could be acquisition or partnership targets. Instead of competing, consider integrating ${d.topNames[1]||'top project'}.`},
-  {id:14,cat:'competitive',color:'#F87171',icon:'🔮',label:'6-Month Forecast',fn:(d,q)=>`At current pace "${q}" will have ${Math.round(d.count*1.4)} projects by Q4 2026. LBC needs MVP in next 90 days.`},
-  {id:15,cat:'competitive',color:'#F87171',icon:'🏗️',label:'Infrastructure Gap',fn:(d,q)=>`Top "${q}" projects all need identity, payments, community layer. LBC's stack (lbc.network + lbc-hub.com + $LBC) covers all three. No single competitor does.`},
-  {id:16,cat:'competitive',color:'#F87171',icon:'📣',label:'Narrative War',fn:(d,q)=>`The "${q}" narrative is unclaimed on Solana. LBC should own: "The only ecosystem combining ${q} with real community ownership and $LBC rewards."`},
-  {id:17,cat:'competitive',color:'#F87171',icon:'🎪',label:'Demo Day Signal',fn:(d,q)=>`${d.winners} winners presented at Solana demo days. VCs saw this space. If ${d.topNames[0]||'top project'} raised — LBC should be pitching too.`},
-  {id:18,cat:'competitive',color:'#F87171',icon:'⚖️',label:'Regulatory Edge',fn:(d,q)=>`Crypto + "${q}" faces US regulatory scrutiny. LBC operating from Canada with clear community mandate has positioning advantage.`},
-  {id:19,cat:'competitive',color:'#F87171',icon:'🔑',label:'Key Differentiator',fn:(d,q)=>`None of ${d.count} projects combine: multi-domain ecosystem + $LBC token incentives + real community network. That triple combination is LBC's unfair advantage.`},
-  {id:20,cat:'competitive',color:'#F87171',icon:'🚨',label:'Urgency Score',fn:(d,q)=>`URGENCY: ${d.count>6?'HIGH — build in 60 days':d.count>3?'MEDIUM — build in 120 days':'LOW — build in 6 months'}. ${d.winners>2?'Winners pulling away fast.':'Still time to lead.'}`},
-  {id:21,cat:'opportunity',color:'#FBBF24',icon:'💰',label:'Revenue Potential',fn:(d,q)=>`"${q}" for LBC: transaction fees (2-3%) + premium features + $LBC staking. At 10k monthly users → $50K-$150K MRR. Validated by ${d.count} competing approaches.`},
-  {id:22,cat:'opportunity',color:'#FBBF24',icon:'🌱',label:'Whitespace Score',fn:(d,q)=>`${d.count===0?'PERFECT whitespace — zero competitors on Solana':d.count<3?'NEAR-EMPTY — massive opportunity':d.count<6?'MODERATE whitespace remains':'CROWDED — find the sub-niche'}.`},
-  {id:23,cat:'opportunity',color:'#FBBF24',icon:'🎁',label:'Token Utility Unlock',fn:(d,q)=>`"${q}" creates $LBC utility: stake LBC for premium access, earn LBC for contributions, spend LBC for services. Each vertical = new token demand.`},
-  {id:24,cat:'opportunity',color:'#FBBF24',icon:'🌐',label:'Network Effect',fn:(d,q)=>`"${q}" + LBC = cross-domain network effects: travel users → marketplace users → social users → all using $LBC. Each domain amplifies others.`},
-  {id:25,cat:'opportunity',color:'#FBBF24',icon:'📱',label:'Mobile-First Gap',fn:(d,q)=>`Most "${q}" Solana projects are web-only. LBC building mobile-first captures 70% of users who use mobile primarily.`},
-  {id:26,cat:'opportunity',color:'#FBBF24',icon:'🏙️',label:'Digital City Fit',fn:(d,q)=>`"${q}" is a SERVICE city residents need. Integrating into lbc-hub.com makes LBC the infrastructure layer, not just an app.`},
-  {id:27,cat:'opportunity',color:'#FBBF24',icon:'🤖',label:'AI Layer Opportunity',fn:(d,q)=>`None of ${d.count} projects in "${q}" have an AI layer. LBC adding Lumina AI = instant differentiation. AI-powered "${q}" = category of one.`},
-  {id:28,cat:'opportunity',color:'#FBBF24',icon:'🔄',label:'Flywheel Design',fn:(d,q)=>`"${q}" flywheel: more users → more $LBC demand → higher token value → attracts builders → better product → more users. Design this loop into MVP.`},
-  {id:29,cat:'opportunity',color:'#FBBF24',icon:'🎯',label:'Beachhead Market',fn:(d,q)=>`Beachhead: LBC's existing community (Canada + diaspora). Prove the model, then expand to MENA and Africa.`},
-  {id:30,cat:'opportunity',color:'#FBBF24',icon:'📦',label:'Bundle Advantage',fn:(d,q)=>`Standalone "${q}" apps acquire users from scratch. LBC bundles with social + marketplace + travel. Distribution built — zero CAC from cross-selling.`},
-  {id:31,cat:'opportunity',color:'#FBBF24',icon:'💎',label:'Premium Tier Design',fn:(d,q)=>`Premium: $9.99/month or 100 $LBC/month for advanced features. ${d.accel} accelerated projects prove willingness to pay exists.`},
-  {id:32,cat:'opportunity',color:'#FBBF24',icon:'🤝',label:'B2B Opportunity',fn:(d,q)=>`"${q}" has B2B angle: sell the infrastructure to other communities. LBC becomes the Stripe of "${q}" — enabling others builds recurring revenue.`},
-  {id:33,cat:'opportunity',color:'#FBBF24',icon:'🗺️',label:'Expansion Path',fn:(d,q)=>`After "${q}" in Canada: UAE (LBC MENA hub), Nigeria (LBC Africa), Jamaica (Caribbean). Same product, local communities, $LBC settlement layer.`},
-  {id:34,cat:'opportunity',color:'#FBBF24',icon:'📊',label:'Data Monetization',fn:(d,q)=>`"${q}" generates behavioral data. Anonymized insights sold to brands and urban planners = secondary revenue without compromising privacy.`},
-  {id:35,cat:'opportunity',color:'#FBBF24',icon:'🎪',label:'Events Integration',fn:(d,q)=>`Connect "${q}" to lbchub.live: every transaction can trigger a live event or community challenge. Engagement flywheel.`},
-  {id:36,cat:'opportunity',color:'#FBBF24',icon:'🏦',label:'DeFi Integration',fn:(d,q)=>`"${q}" + DeFi: escrow payments, yield on idle balances, instant $LBC settlements. lbchub.io provides the rails. Seamless.`},
-  {id:37,cat:'opportunity',color:'#FBBF24',icon:'🎓',label:'Education Market',fn:(d,q)=>`"${q}" has education angle for emerging markets: digital skills, entrepreneurship — denominated in $LBC. Massive untapped market.`},
-  {id:38,cat:'opportunity',color:'#FBBF24',icon:'⚡',label:'Speed to Market',fn:(d,q)=>`LBC's Base44 + Solana stack means MVP in 2-4 weeks. Competitors building from scratch need 6-12 months.`},
-  {id:39,cat:'opportunity',color:'#FBBF24',icon:'🔭',label:'Blue Ocean Signal',fn:(d,q)=>`"${q}" on Solana: ${d.count} projects. ${d.count<4?'BLUE OCEAN — LBC defines the rules':'Blue ocean niches still exist in sub-verticals'}.`},
-  {id:40,cat:'opportunity',color:'#FBBF24',icon:'🌊',label:'Wave Timing',fn:(d,q)=>`Solana ecosystem in growth phase. "${q}" in ${d.hackathons} hackathons = institutional validation. Wave forming — LBC should surf it, not watch.`},
-  {id:41,cat:'tokenomics',color:'#A78BFA',icon:'🪙',label:'$LBC Demand Driver',fn:(d,q)=>`"${q}" creates direct $LBC demand: users hold/stake LBC to access services. ${d.count} competing projects have NO token. Structural advantage.`},
-  {id:42,cat:'tokenomics',color:'#A78BFA',icon:'🔥',label:'Burn Mechanism',fn:(d,q)=>`Design "${q}" with $LBC burn: % of every fee burned. More usage = fewer tokens = higher value per token. Users become holders.`},
-  {id:43,cat:'tokenomics',color:'#A78BFA',icon:'🏛️',label:'Governance Value',fn:(d,q)=>`"${q}" users holding $LBC get governance rights. Community-owned vertical vs VC-backed competitors. This is LBC's structural differentiator.`},
-  {id:44,cat:'tokenomics',color:'#A78BFA',icon:'💸',label:'Rewards Architecture',fn:(d,q)=>`Earn $LBC for quality contributions, verified reviews, successful transactions. Self-funding growth — zero paid marketing needed.`},
-  {id:45,cat:'tokenomics',color:'#A78BFA',icon:'🔐',label:'Staking Utility',fn:(d,q)=>`Staking tiers: 100 LBC = basic, 1000 LBC = premium, 10000 LBC = provider. Creates token velocity AND holding demand simultaneously.`},
-  {id:46,cat:'tokenomics',color:'#A78BFA',icon:'📈',label:'Price Impact',fn:(d,q)=>`5,000 users staking 500 $LBC avg = 2.5M LBC locked per vertical. 8 verticals = 20M+ locked. Significant deflationary pressure.`},
-  {id:47,cat:'tokenomics',color:'#A78BFA',icon:'🌐',label:'Cross-Domain Earning',fn:(d,q)=>`Earn $LBC in "${q}", spend in marketplace, redeem for travel. Cross-domain circulation = self-sustaining economy. No competitor does this.`},
-  {id:48,cat:'tokenomics',color:'#A78BFA',icon:'🎁',label:'Incentive Design',fn:(d,q)=>`First 1,000 users in "${q}" get 10x rewards. Early adopter advantage creates viral growth without equity dilution.`},
-  {id:49,cat:'tokenomics',color:'#A78BFA',icon:'⚖️',label:'Token/Fiat Balance',fn:(d,q)=>`Accept both fiat AND $LBC — fiat for mass adoption, $LBC for power users. Dual-rail lowers barrier to entry.`},
-  {id:50,cat:'tokenomics',color:'#A78BFA',icon:'🔄',label:'Liquidity Bootstrap',fn:(d,q)=>`Use "${q}" fees to seed $LBC/USDC liquidity on lbchub.io DEX. Every vertical contributes to the DeFi layer.`},
-  {id:51,cat:'tokenomics',color:'#A78BFA',icon:'💼',label:'Treasury Building',fn:(d,q)=>`5% of "${q}" revenue to LBC treasury. ${d.count} competing projects have no treasury. LBC builds war chest while they burn VC money.`},
-  {id:52,cat:'tokenomics',color:'#A78BFA',icon:'🎯',label:'Token Sink Design',fn:(d,q)=>`"${q}" token sinks: premium features, advertising, dispute resolution, verification — all $LBC denominated. Multiple sinks = sustained demand.`},
-  {id:53,cat:'tokenomics',color:'#A78BFA',icon:'🤝',label:'Partner Token Swaps',fn:(d,q)=>`Partner with top "${q}" project: $LBC ↔ their token swap. Mutual liquidity, shared users, joint marketing. Cost: zero.`},
-  {id:54,cat:'tokenomics',color:'#A78BFA',icon:'📊',label:'Velocity vs Holding',fn:(d,q)=>`Balance: earn LBC (velocity) and stake LBC (holding). Target: 60% velocity, 40% staked. Too much either = problems.`},
-  {id:55,cat:'tokenomics',color:'#A78BFA',icon:'🚀',label:'TGE Catalyst',fn:(d,q)=>`Launching "${q}" pre-TGE creates demand narrative: "$LBC powers ${d.count+1} verticals including ${q}" — stronger whitepaper than any competitor.`},
-  {id:56,cat:'tech',color:'#60A5FA',icon:'⚙️',label:'Stack Assessment',fn:(d,q)=>`Top stacks in "${q}": ${d.topStack.slice(0,3).join(', ')||'Solana, Anchor, React'}. LBC's current stack covers all. Zero new infrastructure needed.`},
-  {id:57,cat:'tech',color:'#60A5FA',icon:'🏗️',label:'Architecture Fit',fn:(d,q)=>`"${q}" architecture: React/Next.js + Solana Anchor + IPFS + $LBC payments. LBC Base44 stack handles all natively.`},
-  {id:58,cat:'tech',color:'#60A5FA',icon:'⚡',label:'Solana Advantage',fn:(d,q)=>`Solana's 400ms finality + sub-cent fees makes "${q}" micro-transactions viable. EVM cannot compete here. LBC is on the right chain.`},
-  {id:59,cat:'tech',color:'#60A5FA',icon:'🔌',label:'Integration Points',fn:(d,q)=>`"${q}" integrates with LBC's existing identity (lbc.network), payments ($LBC via lbchub.io), community (lbc-hub.com). 3 built-in integration points.`},
-  {id:60,cat:'tech',color:'#60A5FA',icon:'🛡️',label:'Security Model',fn:(d,q)=>`"${q}" security: Solana native account model for escrow, multisig for treasury, PDAs for user vaults. All proven primitives.`},
-  {id:61,cat:'tech',color:'#60A5FA',icon:'📊',label:'Data Architecture',fn:(d,q)=>`"${q}" data: on-chain (ownership, payments, governance) + off-chain (profiles, content, analytics). Hybrid = best of both worlds.`},
-  {id:62,cat:'tech',color:'#60A5FA',icon:'🤖',label:'AI Integration Layer',fn:(d,q)=>`Add Lumina AI to "${q}": recommendation engine, fraud detection, smart matching, NL search. ${d.count} competitors have ZERO AI layer.`},
-  {id:63,cat:'tech',color:'#60A5FA',icon:'📱',label:'PWA vs Native',fn:(d,q)=>`Build PWA first (ship in weeks), then native app (months). Most "${q}" competitors web-only. PWA bridges gap immediately.`},
-  {id:64,cat:'tech',color:'#60A5FA',icon:'🔗',label:'Composability',fn:(d,q)=>`"${q}" as composable primitive: other devs build on top via LBC SDK (lbchub.site). Each integration earns $LBC fees back to protocol.`},
-  {id:65,cat:'tech',color:'#60A5FA',icon:'⚡',label:'Real-time Needs',fn:(d,q)=>`"${q}" needs WebSockets for live updates, Solana subscriptions for on-chain events. Current stack handles this — no additional infra.`},
-  {id:66,cat:'tech',color:'#60A5FA',icon:'🗄️',label:'Storage Strategy',fn:(d,q)=>`"${q}" storage: Arweave/IPFS for permanent data, Base44 for mutable data, Solana for ownership/payments. Three-layer = resilient and cheap.`},
-  {id:67,cat:'tech',color:'#60A5FA',icon:'🔄',label:'API Design',fn:(d,q)=>`"${q}" API: REST for CRUD, WebSocket for real-time, exposed via lbchub.site SDK. Devs build on LBC, paying $LBC fees per call.`},
-  {id:68,cat:'tech',color:'#60A5FA',icon:'📡',label:'Oracle Requirements',fn:(d,q)=>`"${q}" may need price oracles (Pyth/Switchboard) for $LBC-denominated pricing. Both Solana-native. No additional chain risk.`},
-  {id:69,cat:'tech',color:'#60A5FA',icon:'🧪',label:'Testing Strategy',fn:(d,q)=>`"${q}" testing: Solana devnet for smart contracts, Jest for frontend, Anchor for unit tests. ${d.count} hackathon projects prove patterns exist.`},
-  {id:70,cat:'tech',color:'#60A5FA',icon:'🚀',label:'Ship Timeline',fn:(d,q)=>`"${q}" timeline: Week 1-2 design + Solana program, Week 3-4 frontend + integration, Week 5-6 testing + audit, Week 7 mainnet. 7 weeks.`},
-  {id:71,cat:'community',color:'#00FFA3',icon:'👥',label:'Community Fit',fn:(d,q)=>`LBC's existing community is distribution for "${q}". No cold start. Day 1 users = existing LBC members. ${d.count} competitors build from scratch.`},
-  {id:72,cat:'community',color:'#00FFA3',icon:'📣',label:'Viral Mechanics',fn:(d,q)=>`"${q}" viral loop: use it → earn $LBC → invite friends → friends earn $LBC. Token makes referrals self-funding vs fiat competitors.`},
-  {id:73,cat:'community',color:'#00FFA3',icon:'🌍',label:'Diaspora Power',fn:(d,q)=>`LBC's Canadian + diaspora community has unique "${q}" use cases: remittances, cross-border trade, cultural events. None of ${d.count} projects target this.`},
-  {id:74,cat:'community',color:'#00FFA3',icon:'🎮',label:'Gamification Layer',fn:(d,q)=>`"${q}" gamification: leaderboards, $LBC challenges, community missions + lbchub.live integration = engagement 10x vs plain apps.`},
-  {id:75,cat:'community',color:'#00FFA3',icon:'🤝',label:'Trust Architecture',fn:(d,q)=>`"${q}" trust: on-chain reputation, community vouching, $LBC staking as collateral. Decentralized trust = harder to game.`},
-  {id:76,cat:'community',color:'#00FFA3',icon:'🏆',label:'Creator Economy',fn:(d,q)=>`"${q}" creator program: build value → earn $LBC → get featured on lbchub.live. Turns users into stakeholders and evangelists.`},
-  {id:77,cat:'community',color:'#00FFA3',icon:'📱',label:'Social Proof Engine',fn:(d,q)=>`Every "${q}" transaction generates a social moment. Social feed = organic marketing that costs zero.`},
-  {id:78,cat:'community',color:'#00FFA3',icon:'🎪',label:'Community Governance',fn:(d,q)=>`"${q}" governed by $LBC voters. Community decides fees, features, partners. Beats VC-dictated roadmaps.`},
-  {id:79,cat:'community',color:'#00FFA3',icon:'🌱',label:'Onboarding Flow',fn:(d,q)=>`"${q}" onboarding: connect wallet → get 10 $LBC welcome → complete first action → earn 25 more $LBC. Positive loop from minute one.`},
-  {id:80,cat:'community',color:'#00FFA3',icon:'📊',label:'Retention Mechanics',fn:(d,q)=>`"${q}" retention: daily $LBC rewards, streak bonuses, seasonal challenges. Competitors rely on utility alone — LBC adds identity and belonging.`},
-  {id:81,cat:'community',color:'#00FFA3',icon:'🔗',label:'Cross-Platform Identity',fn:(d,q)=>`One LBC identity across "${q}", marketplace, travel, social. No re-registration, no re-KYC. Portability = killer feature.`},
-  {id:82,cat:'community',color:'#00FFA3',icon:'📢',label:'Ambassador Program',fn:(d,q)=>`"${q}" ambassadors in 10 cities: earn $LBC for onboarding local businesses. Hyperlocal growth. No Solana project does this.`},
-  {id:83,cat:'community',color:'#00FFA3',icon:'🎯',label:'Influencer Integration',fn:(d,q)=>`LBC creators on lbchub.live promote "${q}", earn $LBC commissions. Influencer marketing that pays in ownership, not cash.`},
-  {id:84,cat:'community',color:'#00FFA3',icon:'🌐',label:'Language Accessibility',fn:(d,q)=>`"${q}" in Arabic, French, English, Spanish = 5x addressable market. ${d.count} competitors English-only.`},
-  {id:85,cat:'community',color:'#00FFA3',icon:'🏙️',label:'IRL Integration',fn:(d,q)=>`"${q}" offline: QR codes, NFC payments, local meetups. Digital city needs physical presence. LBC bridges crypto and real-world.`},
-  {id:86,cat:'strategic',color:'#FB923C',icon:'🧭',label:'North Star Metric',fn:(d,q)=>`North star for "${q}": Monthly Active Users earning $LBC. Target: 10k MAU in 12 months. Single metric = usage + token demand + community health.`},
-  {id:87,cat:'strategic',color:'#FB923C',icon:'🗺️',label:'Roadmap Position',fn:(d,q)=>`"${q}" roadmap: V1 core (7 weeks) → V2 AI layer (month 4) → V3 governance (month 8) → V4 cross-chain (month 12).`},
-  {id:88,cat:'strategic',color:'#FB923C',icon:'💼',label:'Business Model',fn:(d,q)=>`"${q}" model: freemium + transaction fees (2%) + B2B API licensing + data insights. Four revenue streams from day one.`},
-  {id:89,cat:'strategic',color:'#FB923C',icon:'🎯',label:'OKR Framework',fn:(d,q)=>`"${q}" OKRs: O1=Ship MVP 60 days, O2=1,000 users 90 days, O3=100k $LBC transacted 120 days, O4=3 B2B partnerships 180 days.`},
-  {id:90,cat:'strategic',color:'#FB923C',icon:'⚖️',label:'Risk Assessment',fn:(d,q)=>`"${q}" risks: Regulatory (mitigate: Canada-first), Liquidity (mitigate: gradual rollout), Competition (mitigate: speed). All manageable.`},
-  {id:91,cat:'strategic',color:'#FB923C',icon:'🔄',label:'Pivot Options',fn:(d,q)=>`If "${q}" fails: pivot B2B, adjacent vertical, or data play. ${d.count} reference projects = informed pivots, not guesses.`},
-  {id:92,cat:'strategic',color:'#FB923C',icon:'🤝',label:'Strategic Partnerships',fn:(d,q)=>`"${q}" partners: Solana Foundation (grants), ${d.topNames[0]||'top project'} (integration), local governments (legitimacy), Canadian banks (fiat rails).`},
-  {id:93,cat:'strategic',color:'#FB923C',icon:'💰',label:'Funding Strategy',fn:(d,q)=>`"${q}" funding: Solana Foundation grant ($50-250k) + $LBC treasury + future Series A. ${d.accel} accelerated projects prove grant availability. Apply now.`},
-  {id:94,cat:'strategic',color:'#FB923C',icon:'📊',label:'KPI Dashboard',fn:(d,q)=>`"${q}" KPIs: DAU/MAU >30%, $LBC transacted daily >10k, NPS >50, ARPU >$5/month.`},
-  {id:95,cat:'strategic',color:'#FB923C',icon:'🏆',label:'Competitive Moat',fn:(d,q)=>`LBC "${q}" moat: network effects + switching costs (identity + history) + $LBC lock-in + AI data advantage. Four-layer moat.`},
-  {id:96,cat:'strategic',color:'#FB923C',icon:'🌍',label:'Go-to-Market',fn:(d,q)=>`"${q}" GTM: (1) Soft launch to LBC community (2) Solana hackathon entry (3) Press "First LBC Digital City feature" (4) Ambassador activation 3 cities.`},
-  {id:97,cat:'strategic',color:'#FB923C',icon:'🔮',label:'Exit/Scale Path',fn:(d,q)=>`"${q}" long-term: success → spin out as standalone protocol. Acquisition → LBC treasury buyback. Both outcomes win.`},
-  {id:98,cat:'strategic',color:'#FB923C',icon:'📅',label:'90-Day Action Plan',fn:(d,q)=>`Day 1-30: Design + build MVP. Day 31-60: Beta 100 LBC members. Day 61-90: Public launch + hackathon + press. GO.`},
-  {id:99,cat:'strategic',color:'#FB923C',icon:'⚡',label:'Minimum Viable Moat',fn:(d,q)=>`Launch with: $LBC rewards + community governance + Lumina AI. These three features are impossible for any of ${d.count} competitors to copy in 12 months.`},
-  {id:100,cat:'strategic',color:'#FB923C',icon:'🚀',label:'FINAL SIGNAL',fn:(d,q)=>`VERDICT on "${q}": ${d.count<3?'BUILD NOW — near-zero competition, massive opportunity, perfect LBC fit':d.count<6?'BUILD FAST — window open, LBC has structural advantages':'BUILD SMARTER — crowded, find the unique sub-niche and own it'}. Data supports action.`},
-];
-
-const CAT_META={
-  competitive:{color:'#F87171',label:'Competitive'},
-  opportunity:{color:'#FBBF24',label:'Opportunity'},
-  tokenomics:{color:'#A78BFA',label:'Tokenomics'},
-  tech:{color:'#60A5FA',label:'Tech Stack'},
-  community:{color:'#00FFA3',label:'Community'},
-  strategic:{color:'#FB923C',label:'Strategic'},
-};
-
-let activeCat='all', allThoughts=[];
-
-function startThinking(q){
-  if(thinkRunning)return;
-  thinkRunning=true; allThoughts=[]; activeCat='all';
-  const btn=$('thinkBtn'); if(btn){btn.disabled=true;btn.textContent='🧠 Thinking…';}
-  showMbCrumb();
-  const zone=$('motherboardZone');
-  zone.innerHTML=`
-    <div class="motherboard" id="mb">
-      <div class="mb-header">
-        <div class="mb-title-group">
-          <div class="mb-icon">🧠</div>
-          <div><div class="mb-name">MOTHERBOARD</div><div class="mb-sub">100 parallel AI analyzers firing</div></div>
-        </div>
-        <div class="mb-progress">
-          <div class="mb-count" id="mbCount">0/100</div>
-          <div class="mb-bar"><div class="mb-fill" id="mbFill" style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="mb-cats" id="mbCats">
-        <div class="mb-cat active" style="color:#E2E8F0;border-color:#E2E8F0;background:rgba(255,255,255,.06)" onclick="filterCat('all')">All (0)</div>
-        ${Object.entries(CAT_META).map(([k,v])=>`<div class="mb-cat" id="cat-${k}" style="color:${v.color};border-color:${v.color}" onclick="filterCat('${k}')">${v.label} (0)</div>`).join('')}
-      </div>
-      <div class="mb-grid" id="mbGrid">
-        <div class="thought-placeholder"><div style="font-size:11px;color:#64748B;font-family:'Space Mono',monospace;">Firing lenses<span class="thinking-dots"><span></span><span></span><span></span></span></div></div>
-      </div>
-    </div>
-  `;
-
-  const projs=(currentResults?.data?.projects||currentResults?.data?.results||[]);
-  const count=projs.length;
-  const winners=projs.filter(p=>p.prize||p.lbc_signals?.is_winner).length;
-  const accel=projs.filter(p=>p.accelerator||p.lbc_signals?.is_accelerated).length;
-  const avgScore=count?Math.round(projs.reduce((s,p)=>s+(p.lbc_score||p.similarity*100||0),0)/count*10)/10:0;
-  const hackathons=[...new Set(projs.map(p=>p.hackathon?.name).filter(Boolean))].length;
-  const topNames=projs.slice(0,5).map(p=>p.name);
-  const topStack=[...new Set(projs.flatMap(p=>[...(p.tags?.techStack||[]),...(p.tags?.primitives||[])]))].slice(0,8);
-  const data={count,winners,accel,avgScore,hackathons,topNames,topStack};
-
-  LENSES.forEach((lens,idx)=>{
-    setTimeout(()=>{
-      const thought={id:lens.id,cat:lens.cat,color:lens.color,icon:lens.icon,label:lens.label,text:lens.fn(data,q)};
-      allThoughts.push(thought);
-      updateMb(thought,idx+1);
-      if(idx===LENSES.length-1){
-        setTimeout(()=>{
-          renderFinalVerdict(allThoughts,data,q);
-          thinkRunning=false;
-          const b=$('thinkBtn');if(b){b.disabled=false;b.textContent='🔁 Re-Think';}
-        },400);
-      }
-    }, idx*25+Math.random()*12);
-  });
-}
-
-function updateMb(thought,count){
-  $('mbCount').textContent=`${count}/100`;
-  $('mbFill').style.width=`${count}%`;
-
-  // update cat badges
-  const catCounts={};
-  allThoughts.forEach(t=>{catCounts[t.cat]=(catCounts[t.cat]||0)+1;});
-  Object.entries(CAT_META).forEach(([k,v])=>{
-    const el=$('cat-'+k);
-    if(el) el.textContent=`${v.label} (${catCounts[k]||0})`;
-  });
-  const allEl=$('mbCats')?.querySelector('[onclick="filterCat(\'all\')"]');
-  if(allEl) allEl.textContent=`All (${allThoughts.length})`;
-
-  // render thought to grid (if matches active filter)
-  if(activeCat==='all'||activeCat===thought.cat){
-    const grid=$('mbGrid');
-    if(grid){
-      const ph=grid.querySelector('.thought-placeholder');if(ph)ph.remove();
-      const el=document.createElement('div');
-      el.className='thought';el.style.borderLeftColor=thought.color;
-      el.innerHTML=`<div class="thought-head"><span class="thought-icon">${thought.icon}</span><span class="thought-label" style="color:${thought.color}">${thought.label}</span><span class="thought-id">#${thought.id}</span></div><div class="thought-text">${thought.text}</div>`;
-      grid.appendChild(el);
-      if(count%5===0) grid.scrollTop=grid.scrollHeight;
+  try {
+    const res = await fetch('https://lumina-7c020410.base44.app/functions/lbcIntelligence', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({action:'search_projects', query:q, limit:5})
+    });
+    const data = await res.json();
+    loading.style.display = 'none';
+    const projects = data?.data?.projects || data?.projects || [];
+    if (!projects.length) {
+      results.innerHTML = '<div style="font-size:13px;color:var(--sub);font-family:Space Mono,monospace;padding:12px;">No results found. Try different keywords.</div>';
+      return;
     }
+    projects.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'sr-card show';
+      const score = p.lbc_score || p.similarity_score || 0;
+      const tags = (p.tags?.techStack || []).slice(0,4).map(t => `<span class="sr-tag">${t}</span>`).join('');
+      card.innerHTML = `
+        <div class="sr-header">
+          <div class="sr-name">${p.name || 'Unknown Project'}</div>
+          <div class="sr-score">LBC Score: ${typeof score === 'number' ? score.toFixed(1) : score}</div>
+        </div>
+        <div class="sr-desc">${p.description || p.summary || 'No description available.'}</div>
+        <div class="sr-tags">${tags}</div>
+      `;
+      results.appendChild(card);
+    });
+  } catch(e) {
+    loading.style.display = 'none';
+    results.innerHTML = '<div style="font-size:13px;color:var(--red);font-family:Space Mono,monospace;padding:12px;">Intelligence API offline. Try again shortly.</div>';
   }
 }
-
-function filterCat(cat){
-  activeCat=cat;
-  document.querySelectorAll('.mb-cat').forEach(el=>{
-    const isAll=el.getAttribute('onclick')==="filterCat('all')";
-    const isCat=cat!=='all'&&el.id===`cat-${cat}`;
-    el.classList.toggle('active',isAll?cat==='all':isCat);
-  });
-  const grid=$('mbGrid');
-  if(!grid)return;
-  grid.innerHTML='';
-  const filtered=cat==='all'?allThoughts:allThoughts.filter(t=>t.cat===cat);
-  filtered.forEach(t=>{
-    const el=document.createElement('div');
-    el.className='thought';el.style.borderLeftColor=t.color;
-    el.innerHTML=`<div class="thought-head"><span class="thought-icon">${t.icon}</span><span class="thought-label" style="color:${t.color}">${t.label}</span><span class="thought-id">#${t.id}</span></div><div class="thought-text">${t.text}</div>`;
-    grid.appendChild(el);
-  });
-  if(!filtered.length) grid.innerHTML=`<div class="thought-placeholder"><div style="font-size:11px;color:#64748B;font-family:'Space Mono',monospace;">No thoughts yet for this category</div></div>`;
-}
-
-function renderFinalVerdict(thoughts,data,q){
-  const cats={};
-  thoughts.forEach(t=>{if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
-  const oppScore=data.count<3?95:data.count<6?72:45;
-  const compLabel=data.count>6?'HIGH':data.count>3?'MEDIUM':'LOW';
-  const urgency=data.count>6?'60 days':data.count>3?'90 days':'120 days';
-  const action=oppScore>80?'BUILD NOW — first mover advantage':oppScore>60?'BUILD FAST — window is open':'BUILD SMART — find the sub-niche';
-  const verdictColor=oppScore>80?'#00FFA3':oppScore>60?'#FBBF24':'#F87171';
-  const topInsights=[cats.competitive?.[0]?.text,cats.opportunity?.[0]?.text,cats.tokenomics?.[0]?.text].filter(Boolean);
-  const moat='Community trust + $LBC lock-in + Cross-domain identity + Lumina AI layer';
-
-  const zone=$('motherboardZone');
-  const mb=zone.querySelector('.motherboard');
-  const vDiv=document.createElement('div');
-  vDiv.className='verdict-final';
-  vDiv.innerHTML=`
-    <div class="vf-badge">🧠 MOTHERBOARD VERDICT — 100 LENSES COMPLETE</div>
-    <div class="vf-headline" style="color:${verdictColor}">${action} on "${q}"</div>
-    <div class="vf-metrics">
-      <div class="vf-metric"><div class="vf-mv" style="color:${verdictColor}">${oppScore}%</div><div class="vf-ml">Opportunity Score</div></div>
-      <div class="vf-metric"><div class="vf-mv" style="color:${compLabel==='HIGH'?'#F87171':compLabel==='MEDIUM'?'#FBBF24':'#00FFA3'}">${compLabel}</div><div class="vf-ml">Competition Level</div></div>
-      <div class="vf-metric"><div class="vf-mv" style="color:#A78BFA">${urgency}</div><div class="vf-ml">Build Window</div></div>
-    </div>
-    <div class="vf-block">
-      <div class="vf-label">Top Insights from 100 Analyzers</div>
-      <div class="vf-insights">${topInsights.map(i=>`<div class="vf-insight"><div class="vf-dot"></div><div>${i}</div></div>`).join('')}</div>
-    </div>
-    <div class="vf-block">
-      <div class="vf-label">LBC Structural Advantage</div>
-      <div class="vf-adv">Multi-domain ecosystem (5 domains) + $LBC token incentives + Lumina AI + existing community = structural moat none of the ${data.count} competitors can replicate in under 18 months.</div>
-    </div>
-    <div class="vf-block">
-      <div class="vf-label">Revenue Path</div>
-      <div class="vf-revenue">Transaction fees (2%) + $LBC premium tier ($9.99/mo or 100 LBC) + B2B API licensing + data insights → <strong style="color:#E2E8F0">$50K–$200K MRR within 12 months</strong></div>
-    </div>
-    <div class="vf-block">
-      <div class="vf-label">Moat Components</div>
-      <div class="vf-moat">${moat.split('+').map(m=>`<div class="vf-moat-tag">${m.trim()}</div>`).join('')}</div>
-    </div>
-    <div class="vf-action">
-      <div class="vf-action-label">⚡ Immediate Action</div>
-      <div class="vf-action-text">Start "${q}" MVP today. Ship to LBC community in ${urgency}. Enter next Solana hackathon for visibility + Solana Foundation grant ($50-250k). This data leaves no room for hesitation.</div>
-    </div>
-  `;
-  if(mb) mb.after(vDiv);
-  else zone.appendChild(vDiv);
-  vDiv.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-renderHist();
 </script>
 </body>
 </html>
